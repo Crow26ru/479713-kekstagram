@@ -2,6 +2,7 @@
 
 * Студент: [Семен Оробинский](https://up.htmlacademy.ru/javascript/16/user/479713).
 * Наставник: [Евгений Сальников].
+(https://htmlacademy.ru/profile/id24537).
 
 ---
 
