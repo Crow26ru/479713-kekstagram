@@ -39,7 +39,7 @@ var setLikes = function () {
 };
 
 var setComments = function () {
-  var totalComments = Math.ceil(Math.random * 10);
+  var totalComments = Math.ceil(Math.random() * 10);
   var comments = [];
   for (var i = 0; i < totalComments; i++) {
     comments.push(getRandomElementArray(COMMENTS));
@@ -48,7 +48,7 @@ var setComments = function () {
 };
 
 var getRandomElementArray = function (arr) {
-  return arr[Math.floor(Math.random * arr.length)];
+  return arr[Math.floor(Math.random() * arr.length)];
 };
 
 getInfomationAboutPhoto();
