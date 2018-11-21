@@ -17,6 +17,12 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 var photosGuests = [];
+// Шаблон откуда берем разметку
+var pictureTemplate = document.querySelector('#picture')
+     .content
+     .querySelector('.picture');
+// Куда будем вставлять разметку из шаблона
+var picturesList = document.querySelector('.pictures');
 
 var getInfomationAboutPhoto = function () {
   for (var i = 1; i < 26; i++) {
@@ -51,4 +57,21 @@ var getRandomElementArray = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
+var insertPhotosRandomUsers = function () {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < 25; i++) {
+    var url = photosGuests[i].url;
+    var likes = photosGuests[i].likes;
+    var comments = photosGuests[i].comments;
+    var imageRandom = pictureTemplate.cloneNode(true);
+    imageRandom.querySelector('.picture__img').src = url;
+    imageRandom.querySelector('.picture__likes').textContent = likes;
+    imageRandom.querySelector('.picture__comments').textContent = comments.length;
+    fragment.appendChild(imageRandom);
+  }
+  picturesList.appendChild(fragment);
+};
+
 getInfomationAboutPhoto();
+insertPhotosRandomUsers();
