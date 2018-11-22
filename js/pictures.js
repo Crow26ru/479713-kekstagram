@@ -47,7 +47,7 @@ var setLikes = function () {
 };
 
 var setComments = function () {
-  var totalComments = Math.ceil(Math.random() * 10 + 5);
+  var totalComments = getRandomNumber(10) + 5;
   var comments = [];
   for (var i = 0; i < totalComments; i++) {
     comments.push(getRandomElementArray(COMMENTS));
