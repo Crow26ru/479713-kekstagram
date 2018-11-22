@@ -43,7 +43,7 @@ var setUrlForPhoto = function (count) {
 };
 
 var setLikes = function () {
-  return Math.round(Math.random() * 185 + 15);
+  return getRandomNumber(185) + 14;
 };
 
 var setComments = function () {
