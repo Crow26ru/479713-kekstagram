@@ -125,12 +125,16 @@ var insertPhotosRandomUsersElements = function () {
 var showBigPictureElement = function () {
   var bigPictureElement = document.querySelector('.big-picture');
   var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
+  var socialCommentCountElement = bigPictureElement.querySelector('.social__comment-count');
+  var commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
   bigPictureElement.classList.remove('hidden');
   bigPictureElement.querySelector('.big-picture__img').src = photosGuests[0].url;
   bigPictureElement.querySelector('.likes-count').textContent = photosGuests[0].likes;
   bigPictureElement.querySelector('.comments-count').textContent = photosGuests[0].comments.length;
   insertCommentListElement();
   socialCaptionElement.textContent = photosGuests[0].description;
+  socialCommentCountElement.classList.add('visually-hidden');
+  commentsLoaderElement.classList.add('visually-hidden');
 };
 
 // ВЫЗОВ ФУНКЦИЙ
