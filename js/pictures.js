@@ -21,6 +21,8 @@ var MIN_LIKES = 15;
 var MAX_LIKES = 200;
 var MIN_COMMENTS = 5;
 var MAX_COMMENTS = 15;
+var MIN_URL_ICON_IMAGE = 1;
+var MAX_URL_ICON_IMAGE = 6;
 var photosGuests = [];
 // Шаблон откуда берем разметку
 var pictureTemplateElement = document.querySelector('#picture')
@@ -31,12 +33,12 @@ var picturesListElement = document.querySelector('.pictures');
 
 // ФУНКЦИИ ДЛЯ СОЗДАНИЯ ИНФОРМАЦИИ О ФОТОГАФИЯХ ОТ СЛУЧАЙНЫХ ПОЛЬЗОВАТЕЛЕЙ
 
-var createDataInArray = function (arr, total, minLikes, maxLikes, minComments, maxComments) {
-  for (var i = 1; i <= total; i++) {
+var createDataInArray = function (arr) {
+  for (var i = 1; i <= TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
     var photoInfo = {
       url: getUrlForPhoto(i),
-      likes: getRandomNumber(minLikes, maxLikes),
-      comments: getComments(minComments, maxComments),
+      likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
+      comments: getComments(MIN_COMMENTS, MAX_COMMENTS),
       description: getRandomElementArray(DESCRIPTIONS)
     };
     arr.push(photoInfo);
@@ -61,19 +63,12 @@ var getComments = function (min, max) {
 /*
 // ФУНКЦИИ ДЛЯ РАБОТЫ С ЭЛЕМЕНТАМИ МАССИВА
 
-var searchElementArray = function (url) {
-  // 1 - Из всего URL извлечем кусок подстроки с именем файла, разбив изначальный URL разделителем '/'. Последний фрагмент - имя файла.
-  // 2 - Разбиваем имя файла на его название и расширение. Разделитель '.'. Первый фрагмент - название файла.
-  // 3 - Полученное значение нужно из строкового типа перевести в числовой тип.
-  // 4 - Нужно уменьшить число на единицу ибо нумерация фотографий начинается с единицы.
-  // 5 - По полученному индексу находим нужный элемент массива и возвращаем его.
-  var substring = url.split('/');
-  var fileName = substring[substring.length - 1];
-  fileName = fileName.split('.');
-  var fileNumeration = fileName[0];
-  fileNumeration = parseInt(fileNumeration, 10);
-  fileNumeration--;
-  return photosGuests[fileNumeration];
+var searchElementArray = function (arr, url) {
+  for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
+    if (arr[i].url === url) {
+      return arr[i];
+    }
+  }
 };
 */
 
@@ -101,9 +96,9 @@ var createElement = function (tag, className, text) {
   return someElement;
 };
 
-var createImgElement = function (alt, width, height, className, minUrlIndex, maxUrlIndex) {
+var createImgElement = function (alt, width, height, className) {
   var someImgElement = createElement('img', className);
-  var src = 'img/avatar-' + getRandomNumber(minUrlIndex, maxUrlIndex) + '.svg';
+  var src = 'img/avatar-' + getRandomNumber(MIN_URL_ICON_IMAGE, MAX_URL_ICON_IMAGE) + '.svg';
   someImgElement.src = src;
   someImgElement.alt = alt;
   someImgElement.width = width;
@@ -113,14 +108,16 @@ var createImgElement = function (alt, width, height, className, minUrlIndex, max
 
 var createCommentListElement = function (elem) {
   var totalShowComments = 3;
-  var minUrlIndex = 1;
-  var maxUrlIndex = 6;
   var commentsListElement = document.createDocumentFragment();
 
-  for (var i = 0; i < photosGuests[elem].comments.length; i++) {
+  if (typeof elem === 'number') {
+    elem = photosGuests[elem];
+  }
+
+  for (var i = 0; i < elem.comments.length; i++) {
     var listItemElement = createElement('li', 'social__comment');
-    var imgElement = createImgElement('Аватар комментатора фотографии', '35', '35', 'social__picture', minUrlIndex, maxUrlIndex);
-    var pElement = createElement('p', 'social__text', photosGuests[elem].comments[i]);
+    var imgElement = createImgElement('Аватар комментатора фотографии', '35', '35', 'social__picture');
+    var pElement = createElement('p', 'social__text', elem.comments[i]);
     listItemElement.appendChild(imgElement);
     listItemElement.appendChild(pElement);
 
@@ -155,23 +152,33 @@ var insertPhotosRandomUsersElements = function () {
   picturesListElement.appendChild(fragment);
 };
 
-var showBigPictureElement = function (elem) {
+var showBigPictureElement = function (elem, userObject) {
   var bigPictureElement = document.querySelector('.big-picture');
   var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
   var socialCommentCountElement = bigPictureElement.querySelector('.social__comment-count');
   var commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
   bigPictureElement.classList.remove('hidden');
-  bigPictureElement.querySelector('.big-picture__img').src = photosGuests[elem].url;
-  bigPictureElement.querySelector('.likes-count').textContent = photosGuests[elem].likes;
-  bigPictureElement.querySelector('.comments-count').textContent = photosGuests[elem].comments.length;
-  insertCommentListElement(elem);
-  socialCaptionElement.textContent = photosGuests[elem].description;
+
+  if (!userObject) {
+    bigPictureElement.querySelector('.big-picture__img').src = photosGuests[elem].url;
+    bigPictureElement.querySelector('.likes-count').textContent = photosGuests[elem].likes;
+    bigPictureElement.querySelector('.comments-count').textContent = photosGuests[elem].comments.length;
+    insertCommentListElement(elem);
+    socialCaptionElement.textContent = photosGuests[elem].description;
+  } else {
+    bigPictureElement.querySelector('.big-picture__img').src = userObject.url;
+    bigPictureElement.querySelector('.likes-count').textContent = userObject.likes;
+    bigPictureElement.querySelector('.comments-count').textContent = userObject.comments.length;
+    insertCommentListElement(userObject);
+    socialCaptionElement.textContent = userObject.description;
+  }
+
   socialCommentCountElement.classList.add('visually-hidden');
   commentsLoaderElement.classList.add('visually-hidden');
 };
 
 // ВЫЗОВ ФУНКЦИЙ
 
-createDataInArray(photosGuests, TOTAL_PHOTOS_FROM_RANDOM_USERS, MIN_LIKES, MAX_LIKES, MIN_COMMENTS, MAX_COMMENTS);
+createDataInArray(photosGuests);
 insertPhotosRandomUsersElements();
 showBigPictureElement(0);
