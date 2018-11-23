@@ -58,6 +58,25 @@ var getComments = function (min, max) {
   return comments;
 };
 
+/*
+// ФУНКЦИИ ДЛЯ РАБОТЫ С ЭЛЕМЕНТАМИ МАССИВА
+
+var searchElementArray = function (url) {
+  // 1 - Из всего URL извлечем кусок подстроки с именем файла, разбив изначальный URL разделителем '/'. Последний фрагмент - имя файла.
+  // 2 - Разбиваем имя файла на его название и расширение. Разделитель '.'. Первый фрагмент - название файла.
+  // 3 - Полученное значение нужно из строкового типа перевести в числовой тип.
+  // 4 - Нужно уменьшить число на единицу ибо нумерация фотографий начинается с единицы.
+  // 5 - По полученному индексу находим нужный элемент массива и возвращаем его.
+  var substring = url.split('/');
+  var fileName = substring[substring.length - 1];
+  fileName = fileName.split('.');
+  var fileNumeration = fileName[0];
+  fileNumeration = parseInt(fileNumeration, 10);
+  fileNumeration--;
+  return photosGuests[fileNumeration];
+};
+*/
+
 // ФУНКЦИИ ВОЗВРАЩАЮЩИЕ СЛУЧАЙНЫЙ РЕЗУЛЬТАТ
 
 var getRandomNumber = function (min, max) {
