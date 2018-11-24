@@ -68,7 +68,6 @@ var searchElementArray = function (arr, url) {
       return arr[i];
     }
   }
-  
   return null;
 };
 
@@ -154,7 +153,7 @@ var showBigPictureElement = function (elem) {
   var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
   var socialCommentCountElement = bigPictureElement.querySelector('.social__comment-count');
   var commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
-  
+
   bigPictureElement.classList.remove('hidden');
   bigPictureElement.querySelector('.big-picture__img').src = elem.url;
   bigPictureElement.querySelector('.likes-count').textContent = elem.likes;
