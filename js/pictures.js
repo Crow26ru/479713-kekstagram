@@ -23,6 +23,9 @@ var MIN_COMMENTS = 5;
 var MAX_COMMENTS = 15;
 var MIN_URL_ICON_IMAGE = 1;
 var MAX_URL_ICON_IMAGE = 6;
+var AVATAR_RANDOM_USER_ALT = 'Аватар комментатора фотографии';
+var AVATAR_RANDOM_USER_WIDTH = 35;
+var AVATAR_RANDOM_USER_HEIGHT = 35;
 var photosGuests = [];
 // Шаблон откуда берем разметку
 var pictureTemplateElement = document.querySelector('#picture')
@@ -96,13 +99,13 @@ var createElement = function (tag, className, text) {
   return someElement;
 };
 
-var createImgElement = function (alt, width, height, className) {
+var createImgElement = function (className) {
   var someImgElement = createElement('img', className);
   var src = 'img/avatar-' + getRandomNumber(MIN_URL_ICON_IMAGE, MAX_URL_ICON_IMAGE) + '.svg';
   someImgElement.src = src;
-  someImgElement.alt = alt;
-  someImgElement.width = width;
-  someImgElement.height = height;
+  someImgElement.alt = AVATAR_RANDOM_USER_ALT;
+  someImgElement.width = AVATAR_RANDOM_USER_WIDTH;
+  someImgElement.height = AVATAR_RANDOM_USER_HEIGHT;
   return someImgElement;
 };
 
@@ -112,7 +115,7 @@ var createCommentListElement = function (elem) {
 
   for (var i = 0; i < elem.comments.length; i++) {
     var listItemElement = createElement('li', 'social__comment');
-    var imgElement = createImgElement('Аватар комментатора фотографии', '35', '35', 'social__picture');
+    var imgElement = createImgElement('social__picture');
     var pElement = createElement('p', 'social__text', elem.comments[i]);
     listItemElement.appendChild(imgElement);
     listItemElement.appendChild(pElement);
