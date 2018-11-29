@@ -38,6 +38,7 @@ var picturesListElement = document.querySelector('.pictures');
 // Секция загрузки нового изображения
 var fileUploadElement = document.querySelector('#upload-file');
 var fileUploadCancelElement = document.querySelector('#upload-cancel');
+var effectListElement = document.querySelector('.effects__list');
 
 // ФУНКЦИИ ДЛЯ СОЗДАНИЯ ИНФОРМАЦИИ О ФОТОГАФИЯХ ОТ СЛУЧАЙНЫХ ПОЛЬЗОВАТЕЛЕЙ
 
@@ -69,7 +70,7 @@ var getComments = function (min, max) {
 };
 
 // ФУНКЦИИ ДЛЯ РАБОТЫ С ЭЛЕМЕНТАМИ МАССИВА
-
+/*
 var searchElementArray = function (arr, url) {
   for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
     if (arr[i].url === url) {
@@ -78,6 +79,7 @@ var searchElementArray = function (arr, url) {
   }
   return null;
 };
+*/
 
 
 // ФУНКЦИИ ВОЗВРАЩАЮЩИЕ СЛУЧАЙНЫЙ РЕЗУЛЬТАТ
@@ -156,6 +158,7 @@ var insertPhotosRandomUsersElements = function () {
   picturesListElement.appendChild(fragment);
 };
 
+/*
 var showBigPictureElement = function (elem) {
   var bigPictureElement = document.querySelector('.big-picture');
   var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
@@ -171,6 +174,7 @@ var showBigPictureElement = function (elem) {
   socialCommentCountElement.classList.add('visually-hidden');
   commentsLoaderElement.classList.add('visually-hidden');
 };
+*/
 
 // Функция показывающая или скрывающая '.img-upload__overlay'
 // Значение true параметра isShow показывает оверлей
@@ -183,13 +187,13 @@ var showFileUploadOverlay = function (isShow) {
   } else {
     fileUploadOverlayElement.classList.add('hidden');
   }
-}
+};
 
 // ВЫЗОВ ФУНКЦИЙ
 
 createDataInArray(photosGuests);
 insertPhotosRandomUsersElements();
-//showBigPictureElement(searchElementArray(photosGuests, 'photos/1.jpg'));
+// showBigPictureElement(searchElementArray(photosGuests, 'photos/1.jpg'));
 
 // ОБРАБОТЧИКИ СОБЫТИЙ
 
@@ -197,6 +201,7 @@ var fileUploadEscPressHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     showFileUploadOverlay(false);
     window.removeEventListener('keydown', fileUploadEscPressHandler);
+    effectListElement.removeEventListener('click', effectsListClickHandler);
     fileUploadElement.value = '';
   }
 };
@@ -205,18 +210,62 @@ var fileUploadEnterPressHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     showFileUploadOverlay(false);
     window.removeEventListener('keydown', fileUploadEscPressHandler);
+    effectListElement.removeEventListener('click', effectsListClickHandler);
     fileUploadElement.value = '';
   }
 };
 
+var effectsListClickHandler = function (evt) {
+  // Сначала событие будет инициированно элементом <input>
+  // И распространится до элементов <span> или <label>, смотря где нажатие было выполнено
+  // Нам нужно обрабатывать элемент <span>
+  // Если список классов у изображения не пуст, то отчистить его
+  // У него надо будет взять последний класс и присвоить его изображению
+  // Если присвоен класс 'effects__preview--none', то скрыть бар-ползунок, добавив класс 'hidden'
+  // Иначе проверяем бар-ползунок на наличие класса 'hidden'
+  // Если он есть, то убрать класс 'hidden'
+
+  var target = evt.target;
+
+  if (target.tagName === 'LABEL') {
+    target = target.querySelector('span');
+  }
+
+  if (target.tagName === 'SPAN') {
+    var length = target.classList.length;
+    var lastElementClassList = target.classList[length - 1];
+    var uploadImageElement = document.querySelector('.img-upload__preview img');
+    var effectBarElement = document.querySelector('.img-upload__effect-level');
+
+    if (uploadImageElement.className) {
+      uploadImageElement.className = '';
+    }
+
+    uploadImageElement.classList.add(lastElementClassList);
+
+    if (uploadImageElement.classList.contains('effects__preview--none')) {
+      effectBarElement.classList.add('hidden');
+    } else {
+      if (effectBarElement.classList.contains('hidden')) {
+        effectBarElement.classList.remove('hidden');
+      }
+    }
+  }
+};
+
 fileUploadElement.addEventListener('change', function () {
+  var effectBarElement = document.querySelector('.img-upload__effect-level');
+
+  effectBarElement.classList.add('hidden');
   showFileUploadOverlay(true);
   window.addEventListener('keydown', fileUploadEscPressHandler);
+  effectListElement.addEventListener('click', effectsListClickHandler);
 });
 
 fileUploadCancelElement.addEventListener('click', function () {
   showFileUploadOverlay(false);
   window.removeEventListener('keydown', fileUploadEscPressHandler);
+  effectListElement.removeEventListener('click', effectsListClickHandler);
   fileUploadElement.value = '';
 });
 
