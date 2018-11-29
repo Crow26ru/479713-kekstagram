@@ -26,6 +26,8 @@ var MAX_URL_ICON_IMAGE = 6;
 var AVATAR_RANDOM_USER_ALT = 'Аватар комментатора фотографии';
 var AVATAR_RANDOM_USER_WIDTH = 35;
 var AVATAR_RANDOM_USER_HEIGHT = 35;
+var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
 var photosGuests = [];
 // Шаблон откуда берем разметку
 var pictureTemplateElement = document.querySelector('#picture')
@@ -33,6 +35,9 @@ var pictureTemplateElement = document.querySelector('#picture')
      .querySelector('.picture');
 // Куда будем вставлять разметку из шаблона
 var picturesListElement = document.querySelector('.pictures');
+// Секция загрузки нового изображения
+var fileUploadElement = document.querySelector('#upload-file');
+var fileUploadCancelElement = document.querySelector('#upload-cancel');
 
 // ФУНКЦИИ ДЛЯ СОЗДАНИЯ ИНФОРМАЦИИ О ФОТОГАФИЯХ ОТ СЛУЧАЙНЫХ ПОЛЬЗОВАТЕЛЕЙ
 
@@ -167,8 +172,52 @@ var showBigPictureElement = function (elem) {
   commentsLoaderElement.classList.add('visually-hidden');
 };
 
+// Функция показывающая или скрывающая '.img-upload__overlay'
+// Значение true параметра isShow показывает оверлей
+// Значение false параметра isShow скрывает оверлей
+var showFileUploadOverlay = function (isShow) {
+  var fileUploadOverlayElement = document.querySelector('.img-upload__overlay');
+
+  if (isShow) {
+    fileUploadOverlayElement.classList.remove('hidden');
+  } else {
+    fileUploadOverlayElement.classList.add('hidden');
+  }
+}
+
 // ВЫЗОВ ФУНКЦИЙ
 
 createDataInArray(photosGuests);
 insertPhotosRandomUsersElements();
 //showBigPictureElement(searchElementArray(photosGuests, 'photos/1.jpg'));
+
+// ОБРАБОТЧИКИ СОБЫТИЙ
+
+var fileUploadEscPressHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    showFileUploadOverlay(false);
+    window.removeEventListener('keydown', fileUploadEscPressHandler);
+    fileUploadElement.value = '';
+  }
+};
+
+var fileUploadEnterPressHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    showFileUploadOverlay(false);
+    window.removeEventListener('keydown', fileUploadEscPressHandler);
+    fileUploadElement.value = '';
+  }
+};
+
+fileUploadElement.addEventListener('change', function () {
+  showFileUploadOverlay(true);
+  window.addEventListener('keydown', fileUploadEscPressHandler);
+});
+
+fileUploadCancelElement.addEventListener('click', function () {
+  showFileUploadOverlay(false);
+  window.removeEventListener('keydown', fileUploadEscPressHandler);
+  fileUploadElement.value = '';
+});
+
+fileUploadCancelElement.addEventListener('keydown', fileUploadEnterPressHandler);
