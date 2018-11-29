@@ -268,7 +268,7 @@ var picturesContainerClickHandler = function (evt) {
     var src = target.attributes.src.nodeValue;
 
     showBigPictureElement(searchElementArray(photosGuests, src));
-  }  
+  }
 };
 
 var closeBigPictureEscPressHandler = function (evt) {
