@@ -119,6 +119,11 @@ var createImgElement = function (className) {
 var createCommentListElement = function (elem) {
   var totalShowComments = 3;
   var commentsListElement = document.createDocumentFragment();
+  var socialCommentsElement = document.querySelector('.social__comments');
+
+  while (socialCommentsElement.children.length >= totalShowComments) {
+    socialCommentsElement.removeChild(socialCommentsElement.lastChild);
+  }
 
   for (var i = 0; i < elem.comments.length; i++) {
     var listItemElement = createElement('li', 'social__comment');
@@ -165,7 +170,7 @@ var showBigPictureElement = function (elem) {
   var commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 
   bigPictureElement.classList.remove('hidden');
-  bigPictureElement.querySelector('.big-picture__img').src = elem.url;
+  bigPictureElement.querySelector('.big-picture__img img').src = elem.url;
   bigPictureElement.querySelector('.likes-count').textContent = elem.likes;
   bigPictureElement.querySelector('.comments-count').textContent = elem.comments.length;
   insertCommentListElement(elem);
