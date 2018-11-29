@@ -164,6 +164,7 @@ var insertPhotosRandomUsersElements = function () {
 };
 
 var showBigPictureElement = function (elem) {
+  var alt = 'Фото рандомного пользователя';
   var bigPictureElement = document.querySelector('.big-picture');
   var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
   var socialCommentCountElement = bigPictureElement.querySelector('.social__comment-count');
@@ -171,6 +172,7 @@ var showBigPictureElement = function (elem) {
 
   bigPictureElement.classList.remove('hidden');
   bigPictureElement.querySelector('.big-picture__img img').src = elem.url;
+  bigPictureElement.querySelector('.big-picture__img img').alt = alt;
   bigPictureElement.querySelector('.likes-count').textContent = elem.likes;
   bigPictureElement.querySelector('.comments-count').textContent = elem.comments.length;
   insertCommentListElement(elem);
