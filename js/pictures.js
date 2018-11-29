@@ -171,4 +171,4 @@ var showBigPictureElement = function (elem) {
 
 createDataInArray(photosGuests);
 insertPhotosRandomUsersElements();
-showBigPictureElement(searchElementArray(photosGuests, 'photos/1.jpg'));
+//showBigPictureElement(searchElementArray(photosGuests, 'photos/1.jpg'));
