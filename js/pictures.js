@@ -39,6 +39,8 @@ var picturesListElement = document.querySelector('.pictures');
 var fileUploadElement = document.querySelector('#upload-file');
 var fileUploadCancelElement = document.querySelector('#upload-cancel');
 var effectListElement = document.querySelector('.effects__list');
+var picturesElement = document.querySelector('.pictures');
+var closeBigPictureElement = document.querySelector('.big-picture__cancel');
 
 // ФУНКЦИИ ДЛЯ СОЗДАНИЯ ИНФОРМАЦИИ О ФОТОГАФИЯХ ОТ СЛУЧАЙНЫХ ПОЛЬЗОВАТЕЛЕЙ
 
@@ -70,7 +72,7 @@ var getComments = function (min, max) {
 };
 
 // ФУНКЦИИ ДЛЯ РАБОТЫ С ЭЛЕМЕНТАМИ МАССИВА
-/*
+
 var searchElementArray = function (arr, url) {
   for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
     if (arr[i].url === url) {
@@ -79,8 +81,6 @@ var searchElementArray = function (arr, url) {
   }
   return null;
 };
-*/
-
 
 // ФУНКЦИИ ВОЗВРАЩАЮЩИЕ СЛУЧАЙНЫЙ РЕЗУЛЬТАТ
 
@@ -158,7 +158,6 @@ var insertPhotosRandomUsersElements = function () {
   picturesListElement.appendChild(fragment);
 };
 
-/*
 var showBigPictureElement = function (elem) {
   var bigPictureElement = document.querySelector('.big-picture');
   var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
@@ -173,8 +172,10 @@ var showBigPictureElement = function (elem) {
   socialCaptionElement.textContent = elem.description;
   socialCommentCountElement.classList.add('visually-hidden');
   commentsLoaderElement.classList.add('visually-hidden');
+
+  closeBigPictureElement.addEventListener('click', closeBigPictureClickHandler);
+  window.addEventListener('keydown', closeBigPictureEscPressHandler);
 };
-*/
 
 // Функция показывающая или скрывающая '.img-upload__overlay'
 // Значение true параметра isShow показывает оверлей
@@ -253,6 +254,34 @@ var effectsListClickHandler = function (evt) {
   }
 };
 
+var picturesContainerClickHandler = function (evt) {
+  var target = evt.target;
+
+  if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
+    var src = target.attributes.src.nodeValue;
+
+    showBigPictureElement(searchElementArray(photosGuests, src));
+  }  
+};
+
+var closeBigPictureEscPressHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    var bigPictureElement = document.querySelector('.big-picture');
+
+    bigPictureElement.classList.add('hidden');
+    closeBigPictureElement.removeEventListener('click', closeBigPictureClickHandler);
+    window.removeEventListener('keydown', closeBigPictureEscPressHandler);
+  }
+};
+
+var closeBigPictureClickHandler = function () {
+  var bigPictureElement = document.querySelector('.big-picture');
+
+  bigPictureElement.classList.add('hidden');
+  closeBigPictureElement.removeEventListener('click', closeBigPictureClickHandler);
+  window.removeEventListener('keydown', closeBigPictureEscPressHandler);
+};
+
 fileUploadElement.addEventListener('change', function () {
   var effectBarElement = document.querySelector('.img-upload__effect-level');
 
@@ -270,3 +299,4 @@ fileUploadCancelElement.addEventListener('click', function () {
 });
 
 fileUploadCancelElement.addEventListener('keydown', fileUploadEnterPressHandler);
+picturesElement.addEventListener('click', picturesContainerClickHandler);
