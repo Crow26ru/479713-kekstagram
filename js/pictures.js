@@ -386,11 +386,16 @@ var effectsListClickHandler = function (evt) {
 var picturesContainerClickHandler = function (evt) {
   var target = evt.target;
 
-  if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
-    var src = target.attributes.src.nodeValue;
+  while (target.tagName !== 'A' && !target.classList.contains('picture')) {
+    if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
+      var src = target.attributes.src.nodeValue;
+    }
 
-    showBigPictureElement(searchElementArray(photosGuests, src));
+    target = target.parentNode;
   }
+
+  showBigPictureElement(searchElementArray(photosGuests, src));
+  console.log(target);
 };
 
 var closeBigPictureEscPressHandler = function (evt) {
@@ -428,5 +433,5 @@ fileUploadCancelElement.addEventListener('click', function () {
 });
 
 fileUploadCancelElement.addEventListener('keydown', fileUploadEnterPressHandler);
-picturesElement.addEventListener('click', picturesContainerClickHandler);
+picturesElement.addEventListener('click', picturesContainerClickHandler, false);
 
