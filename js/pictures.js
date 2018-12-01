@@ -197,6 +197,128 @@ var showFileUploadOverlay = function (isShow) {
   }
 };
 
+// ВАЛИДАЦИЯ ХЕШЕЙ 
+
+var checkHashtags = function () {
+  var MAX_HASHTAGS = 5;
+  var MAX_LENGTH_HASHTAG = 20;
+  var CHAR_SPLIT = ' ';
+  var CHAR_HASHTAG = '#';
+
+  var validity = {
+    isCorrectFirstSymbol: false,
+    isNotOnlyHashtagSymbol: false,
+    isCorrectSplitter: false,
+    isNotDublicate: false,
+    isNotManyHashtags: false,
+    isCorrectLength: false
+  };
+  
+  var checkFirstSymbol = function (strArr, char) {
+    strArr.forEach(function(string) {
+      if (string[0] !== char) {
+        return false;
+      }
+    });
+
+    return true;
+  };
+  
+  var checkNotOnlyOneSymbol = function (strArr, char) {
+    strArr.forEach(function(string) {
+      if (string === char) {
+        return false;
+      }
+    });
+
+    return true;
+  };
+
+  var checkCorrectSplitter = function (strArr, char) {
+    var MAX_COUNTS = 1;
+
+    strArr.forEach(function(string) {
+      var counts = 0;
+
+      for (var i = 0; i < string.length; i++) {
+        if (string[i] === 'char') {
+          counts++;
+        }
+
+        if (counts > MAX_COUNTS) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  };
+
+  var checkMaxHashtags = function (strArr, maxElements) {
+    return strArr.length <= maxElements;
+  };
+
+  var checkDublicates = function (strArr) {
+    strArr.sort();
+
+    for (var i = 0; i < strArr.length - 1; i++) {
+      if (strArr[i] === strArr[i + 1]) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+  
+  var checkStringLength = function (strArr, maxLength) {
+    strArr.forEach(function(string) {
+      if (string.length > maxLength) {
+        return false;
+      }
+    });
+
+    return true;
+  };
+
+  var hashtagInput = document.querySelector('.text__hashtags');
+  var textInput = hashtagInput.value.toLowerCase();
+  var textSubstrings = textInput.split(CHAR_SPLIT);
+  
+  validity.isCorrectFirstSymbol = checkFirstSymbol(textSubstrings, CHAR_HASHTAG);
+  validity.isCorrectSplitter = checkCorrectSplitter(textSubstrings, CHAR_SPLIT);
+  validity.isNotDublicate = checkDublicates(textSubstrings);
+  validity.isNotManyHashtags = checkMaxHashtags(textSubstrings, MAX_HASHTAGS);
+  validity.isCorrectLength = checkStringLength(textSubstrings, MAX_LENGTH_HASHTAG);
+  
+  if (!validity.isCorrectFirstSymbol) {
+    hashtagInput.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
+  }
+  
+  if (!validity.isNotOnlyHashtagSymbol) {
+    hashtagInput.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+  }
+  
+  if (!validity.isCorrectSplitter) {
+    hashtagInput.setCustomValidity('Хэш-теги разделяются пробелами');
+  }
+  
+  if (!validity.isNotDublicate) {
+     hashtagInput.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
+  }
+  
+  if (!validity.isNotManyHashtags) {
+     hashtagInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+  }
+  
+  if (!validity.isNotManyHashtags) {
+     hashtagInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+  }
+  
+  if (!validity.isNotManyHashtags) {
+     hashtagInput.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
+  }
+};
+
 // ВЫЗОВ ФУНКЦИЙ
 
 createDataInArray(photosGuests);
@@ -307,3 +429,4 @@ fileUploadCancelElement.addEventListener('click', function () {
 
 fileUploadCancelElement.addEventListener('keydown', fileUploadEnterPressHandler);
 picturesElement.addEventListener('click', picturesContainerClickHandler);
+
