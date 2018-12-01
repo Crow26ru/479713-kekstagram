@@ -199,12 +199,13 @@ var showFileUploadOverlay = function (isShow) {
 
 // ВАЛИДАЦИЯ ХЕШЕЙ 
 
-var checkHashtags = function () {
+var hashtagInputHandler = function (evt) {
   var MAX_HASHTAGS = 5;
   var MAX_LENGTH_HASHTAG = 20;
   var CHAR_SPLIT = ' ';
   var CHAR_HASHTAG = '#';
 
+  var target = evt.target;  
   var validity = {
     isCorrectFirstSymbol: false,
     isNotOnlyHashtagSymbol: false,
@@ -280,7 +281,7 @@ var checkHashtags = function () {
     return true;
   };
 
-  var hashtagInput = document.querySelector('.text__hashtags');
+  var hashtagInput = target;
   var textInput = hashtagInput.value.toLowerCase();
   var textSubstrings = textInput.split(CHAR_SPLIT);
   
@@ -292,31 +293,21 @@ var checkHashtags = function () {
   validity.isCorrectLength = checkStringLength(textSubstrings, MAX_LENGTH_HASHTAG);
   
   if (!validity.isCorrectFirstSymbol) {
-    hashtagInput.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
-  }
-  
-  if (!validity.isNotOnlyHashtagSymbol) {
-    hashtagInput.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-  }
-  
-  if (!validity.isCorrectSplitter) {
-    hashtagInput.setCustomValidity('Хэш-теги разделяются пробелами');
-  }
-  
-  if (!validity.isNotDublicate) {
-     hashtagInput.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
-  }
-  
-  if (!validity.isNotManyHashtags) {
-     hashtagInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
-  }
-  
-  if (!validity.isNotManyHashtags) {
-     hashtagInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
-  }
-  
-  if (!validity.isNotManyHashtags) {
-     hashtagInput.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
+    target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
+  } else if (!validity.isNotOnlyHashtagSymbol) {
+    target.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+  } else if (!validity.isCorrectSplitter) {
+    target.setCustomValidity('Хэш-теги разделяются пробелами');
+  } else if (!validity.isNotDublicate) {
+     target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
+  } else if (!validity.isNotManyHashtags) {
+     target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+  } else if (!validity.isNotManyHashtags) {
+     target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+  } else if (!validity.isNotManyHashtags) {
+     target.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
+  } else {
+    target.setCustomValidity('');
   }
 };
 
@@ -386,20 +377,19 @@ var effectsListClickHandler = function (evt) {
 
 var picturesContainerClickHandler = function (evt) {
   var target = evt.target;
+  var src = '';
 
-  while (target.tagName !== 'A' && !target.classList.contains('picture')) {
-    if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
-      var src = target.attributes.src.nodeValue;
-    } else if (target.tagName === 'P') {
-      target = target.previousSibling;
-      var src = target.attributes.src.nodeValue;
-    }
-
-    target = target.parentNode;
+  if (target.tagName === 'A' && target.classList.contains('picture')) {
+    src = target.firstElementChild.attributes.src.nodeValue;
   }
 
-  showBigPictureElement(searchElementArray(photosGuests, src));
-  console.log(target);
+  if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
+    src = target.attributes.src.nodeValue;
+  }
+
+  if (src) {
+    showBigPictureElement(searchElementArray(photosGuests, src));
+  }
 };
 
 var closeBigPictureEscPressHandler = function (evt) {
@@ -422,11 +412,13 @@ var closeBigPictureClickHandler = function () {
 
 fileUploadElement.addEventListener('change', function () {
   var effectBarElement = document.querySelector('.img-upload__effect-level');
+  var hashtagsElement = document.querySelector('.text__hashtags');
 
   effectBarElement.classList.add('hidden');
   showFileUploadOverlay(true);
   window.addEventListener('keydown', fileUploadEscPressHandler);
   effectListElement.addEventListener('click', effectsListClickHandler);
+  hashtagsElement.addEventListener('input', hashtagInputHandler);
 });
 
 fileUploadCancelElement.addEventListener('click', function () {
