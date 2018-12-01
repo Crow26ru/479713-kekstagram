@@ -285,6 +285,7 @@ var checkHashtags = function () {
   var textSubstrings = textInput.split(CHAR_SPLIT);
   
   validity.isCorrectFirstSymbol = checkFirstSymbol(textSubstrings, CHAR_HASHTAG);
+  validity.isNotOnlyHashtagSymbol = checkNotOnlyOneSymbol(textSubstrings, CHAR_HASHTAG);
   validity.isCorrectSplitter = checkCorrectSplitter(textSubstrings, CHAR_SPLIT);
   validity.isNotDublicate = checkDublicates(textSubstrings);
   validity.isNotManyHashtags = checkMaxHashtags(textSubstrings, MAX_HASHTAGS);
@@ -388,6 +389,9 @@ var picturesContainerClickHandler = function (evt) {
 
   while (target.tagName !== 'A' && !target.classList.contains('picture')) {
     if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
+      var src = target.attributes.src.nodeValue;
+    } else if (target.tagName === 'P') {
+      target = target.previousSibling;
       var src = target.attributes.src.nodeValue;
     }
 
