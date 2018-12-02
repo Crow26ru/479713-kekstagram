@@ -201,7 +201,7 @@ var showFileUploadOverlay = function (isShow) {
 
 var clearClassName = function (element) {
   element.className = '';
-}
+};
 
 // ВАЛИДАЦИЯ ХЕШЕЙ
 
@@ -353,7 +353,8 @@ var hashtagInputHashtagEscPressHandler = function (evt) {
 var fileUploadKeyPressHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE || evt.keyCode === ENTER_KEYCODE) {
     var uploadImageElement = document.querySelector('.img-upload__preview img');
-    
+    var hashtagsElement = document.querySelector('.text__hashtags');
+
     clearClassName(uploadImageElement);
     showFileUploadOverlay(false);
     clearClassName(uploadImageElement);
@@ -423,7 +424,6 @@ var picturesContainerClickHandler = function (evt) {
 var closeBigPictureHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE || evt.type === EVT_CLICK) {
     var bigPictureElement = document.querySelector('.big-picture');
-    var hashtagsElement = document.querySelector('.text__hashtags');
 
     bigPictureElement.classList.add('hidden');
     closeBigPictureElement.removeEventListener('click', closeBigPictureHandler);
