@@ -211,7 +211,7 @@ var executeOperationsBeforeCloseEffectForm = function () {
   window.removeEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.removeEventListener('click', effectsListClickHandler);
   effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
-  hashtagsElement.removeEventListener('change', hashtagInputHandler);
+  hashtagsElement.removeEventListener('input', hashtagInputHandler);
   hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
   fileUploadElement.value = '';
 };
@@ -458,22 +458,12 @@ fileUploadElement.addEventListener('change', function () {
   window.addEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.addEventListener('click', effectsListClickHandler);
   effectFormElement.addEventListener('submit', effectFormSubmitHandler);
-  hashtagsElement.addEventListener('change', hashtagInputHandler);
+  hashtagsElement.addEventListener('input', hashtagInputHandler);
   hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
 });
 
 fileUploadCancelElement.addEventListener('click', function () {
-  var hashtagsElement = document.querySelector('.text__hashtags');
-  var uploadImageElement = document.querySelector('.img-upload__preview img');
-
-  showFileUploadOverlay(false);
-  window.removeEventListener('keydown', fileUploadKeyPressHandler);
-  effectListElement.removeEventListener('click', effectsListClickHandler);
-  clearClassName(uploadImageElement);
-  effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
-  hashtagsElement.removeEventListener('change', hashtagInputHandler);
-  hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
-  fileUploadElement.value = '';
+  executeOperationsBeforeCloseEffectForm();
 });
 
 fileUploadCancelElement.addEventListener('keydown', fileUploadKeyPressHandler);
