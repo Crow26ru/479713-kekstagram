@@ -418,7 +418,7 @@ var closeBigPictureHandler = function (evt) {
     bigPictureElement.classList.add('hidden');
     closeBigPictureElement.removeEventListener('click', closeBigPictureHandler);
     window.removeEventListener('keydown', closeBigPictureHandler);
-    hashtagsElement.removeEventListener('input', hashtagInputHandler);
+    hashtagsElement.removeEventListener('change', hashtagInputHandler);
     hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
   }
 };
