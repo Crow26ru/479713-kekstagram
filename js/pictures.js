@@ -335,8 +335,10 @@ var hashtagInputHandler = function (evt) {
     }
 
     target.setCustomValidity(message);
+    return false;
   } else {
     target.setCustomValidity('');
+    return true;
   }
 };
 
@@ -350,7 +352,19 @@ insertPhotosRandomUsersElements();
 
 var effectFormSubmitHandler = function (evt) {
   evt.preventDefault();
-  hashtagInputHandler(evt);
+  if (hashtagInputHandler(evt)) {
+    var uploadImageElement = document.querySelector('.img-upload__preview img');
+    var hashtagsElement = document.querySelector('.text__hashtags');
+
+    showFileUploadOverlay(false);
+    clearClassName(uploadImageElement);
+    window.removeEventListener('keydown', fileUploadKeyPressHandler);
+    effectListElement.removeEventListener('click', effectsListClickHandler);
+    effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
+    hashtagsElement.removeEventListener('change', hashtagInputHandler);
+    hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
+    fileUploadElement.value = '';
+  }
 };
 
 var hashtagInputHashtagEscPressHandler = function (evt) {
