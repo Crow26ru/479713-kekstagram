@@ -323,19 +323,10 @@ var hashtagInputHashtagEscPressHandler = function (evt) {
   }
 };
 
-var fileUploadEscPressHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+var fileUploadKeyPressHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE || evt.keyCode === ENTER_KEYCODE) {
     showFileUploadOverlay(false);
-    window.removeEventListener('keydown', fileUploadEscPressHandler);
-    effectListElement.removeEventListener('click', effectsListClickHandler);
-    fileUploadElement.value = '';
-  }
-};
-
-var fileUploadEnterPressHandler = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    showFileUploadOverlay(false);
-    window.removeEventListener('keydown', fileUploadEscPressHandler);
+    window.removeEventListener('keydown', fileUploadKeyPressHandler);
     effectListElement.removeEventListener('click', effectsListClickHandler);
     fileUploadElement.value = '';
   }
@@ -415,7 +406,7 @@ fileUploadElement.addEventListener('change', function () {
 
   effectBarElement.classList.add('hidden');
   showFileUploadOverlay(true);
-  window.addEventListener('keydown', fileUploadEscPressHandler);
+  window.addEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.addEventListener('click', effectsListClickHandler);
   hashtagsElement.addEventListener('input', hashtagInputHandler);
   hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
@@ -425,12 +416,12 @@ fileUploadCancelElement.addEventListener('click', function () {
   var hashtagsElement = document.querySelector('.text__hashtags');
 
   showFileUploadOverlay(false);
-  window.removeEventListener('keydown', fileUploadEscPressHandler);
+  window.removeEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.removeEventListener('click', effectsListClickHandler);
   hashtagsElement.removeEventListener('input', hashtagInputHandler);
   hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
   fileUploadElement.value = '';
 });
 
-fileUploadCancelElement.addEventListener('keydown', fileUploadEnterPressHandler);
+fileUploadCancelElement.addEventListener('keydown', fileUploadKeyPressHandler);
 picturesElement.addEventListener('click', picturesContainerClickHandler, false);
