@@ -216,43 +216,42 @@ var hashtagInputHandler = function (evt) {
   };
   
   var checkFirstSymbol = function (strArr, char) {
-    strArr.forEach(function(string) {
-      if (string[0] !== char) {
+    for (var i = 0; i < strArr.length; i++) {
+      if (strArr[i][0] !== char) {
         return false;
       }
-    });
+    }
 
     return true;
   };
   
   var checkNotOnlyOneSymbol = function (strArr, char) {
-    strArr.forEach(function(string) {
-      if (string === char) {
+    for (var i = 0; i < strArr.length; i++) {
+      if (strArr[i] === char) {
         return false;
       }
-    });
+    }
 
     return true;
   };
 
   var checkCorrectSplitter = function (strArr, char) {
     var MAX_COUNTS = 1;
+    var counts;
 
-    strArr.forEach(function(string) {
-      var counts = 0;
-
-      for (var i = 0; i < string.length; i++) {
-        if (string[i] === 'char') {
+    for (var i = 0; i < strArr.length; i++) {
+      counts = 0;
+      for (var j = 0; j < strArr[i].length; j++) {
+        if (strArr[i][j] === char) {
           counts++;
         }
-
         if (counts > MAX_COUNTS) {
           return false;
         }
       }
+    }
 
-      return true;
-    });
+    return true;
   };
 
   var checkMaxHashtags = function (strArr, maxElements) {
@@ -272,12 +271,11 @@ var hashtagInputHandler = function (evt) {
   };
   
   var checkStringLength = function (strArr, maxLength) {
-    strArr.forEach(function(string) {
-      if (string.length > maxLength) {
+    for (var i = 0; i < strArr.length; i++) {
+      if (strArr[i].length > maxLength) {
         return false;
       }
-    });
-
+    }
     return true;
   };
 
@@ -293,20 +291,28 @@ var hashtagInputHandler = function (evt) {
   validity.isCorrectLength = checkStringLength(textSubstrings, MAX_LENGTH_HASHTAG);
   
   if (!validity.isCorrectFirstSymbol) {
+    target.validity.customError = true;
     target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
   } else if (!validity.isNotOnlyHashtagSymbol) {
+    target.validity.customError = true;
     target.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
   } else if (!validity.isCorrectSplitter) {
+    target.validity.customError = true;
     target.setCustomValidity('Хэш-теги разделяются пробелами');
   } else if (!validity.isNotDublicate) {
+     target.validity.customError = true;
      target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
   } else if (!validity.isNotManyHashtags) {
+     target.validity.customError = true;
      target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
   } else if (!validity.isNotManyHashtags) {
+     target.validity.customError = true;
      target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
   } else if (!validity.isNotManyHashtags) {
+     target.validity.customError = true;
      target.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
   } else {
+    target.validity.customError = false;
     target.setCustomValidity('');
   }
 };
