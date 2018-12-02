@@ -26,7 +26,6 @@ var MAX_URL_ICON_IMAGE = 6;
 var AVATAR_RANDOM_USER_ALT = 'Аватар комментатора фотографии';
 var AVATAR_RANDOM_USER_WIDTH = 35;
 var AVATAR_RANDOM_USER_HEIGHT = 35;
-var ENTER_KEYCODE = 13;
 var ESC_KEYCODE = 27;
 var EVT_CLICK = 'click';
 var photosGuests = [];
@@ -210,8 +209,14 @@ var hashtagInputHandler = function (evt) {
   var MAX_LENGTH_HASHTAG = 20;
   var CHAR_SPLIT = ' ';
   var CHAR_HASHTAG = '#';
+  var target;
 
-  var target = evt.target;
+  if (evt.target.tagName !== 'INPUT') {
+    target = evt.target.querySelector('.text__hashtags');
+  } else {
+    target = evt.target;
+  }
+
   var validity = {
     isCorrectFirstSymbol: false,
     isNotOnlyHashtagSymbol: false,
@@ -345,7 +350,7 @@ insertPhotosRandomUsersElements();
 
 var effectFormSubmitHandler = function (evt) {
   evt.preventDefault();
-  console.log(evt);
+  hashtagInputHandler(evt);
 };
 
 var hashtagInputHashtagEscPressHandler = function (evt) {
@@ -356,11 +361,10 @@ var hashtagInputHashtagEscPressHandler = function (evt) {
 };
 
 var fileUploadKeyPressHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE || evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE) {
     var uploadImageElement = document.querySelector('.img-upload__preview img');
     var hashtagsElement = document.querySelector('.text__hashtags');
 
-    clearClassName(uploadImageElement);
     showFileUploadOverlay(false);
     clearClassName(uploadImageElement);
     window.removeEventListener('keydown', fileUploadKeyPressHandler);
