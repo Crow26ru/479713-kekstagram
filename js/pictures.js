@@ -202,6 +202,20 @@ var clearClassName = function (element) {
   element.className = '';
 };
 
+var executeOperationsBeforeCloseEffectForm = function () {
+  var uploadImageElement = document.querySelector('.img-upload__preview img');
+  var hashtagsElement = document.querySelector('.text__hashtags');
+
+  showFileUploadOverlay(false);
+  clearClassName(uploadImageElement);
+  window.removeEventListener('keydown', fileUploadKeyPressHandler);
+  effectListElement.removeEventListener('click', effectsListClickHandler);
+  effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
+  hashtagsElement.removeEventListener('change', hashtagInputHandler);
+  hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
+  fileUploadElement.value = '';
+};
+
 // ВАЛИДАЦИЯ ХЕШЕЙ
 
 var hashtagInputHandler = function (evt) {
@@ -353,17 +367,7 @@ insertPhotosRandomUsersElements();
 var effectFormSubmitHandler = function (evt) {
   evt.preventDefault();
   if (hashtagInputHandler(evt)) {
-    var uploadImageElement = document.querySelector('.img-upload__preview img');
-    var hashtagsElement = document.querySelector('.text__hashtags');
-
-    showFileUploadOverlay(false);
-    clearClassName(uploadImageElement);
-    window.removeEventListener('keydown', fileUploadKeyPressHandler);
-    effectListElement.removeEventListener('click', effectsListClickHandler);
-    effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
-    hashtagsElement.removeEventListener('change', hashtagInputHandler);
-    hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
-    fileUploadElement.value = '';
+    executeOperationsBeforeCloseEffectForm();
   }
 };
 
@@ -376,17 +380,7 @@ var hashtagInputHashtagEscPressHandler = function (evt) {
 
 var fileUploadKeyPressHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    var uploadImageElement = document.querySelector('.img-upload__preview img');
-    var hashtagsElement = document.querySelector('.text__hashtags');
-
-    showFileUploadOverlay(false);
-    clearClassName(uploadImageElement);
-    window.removeEventListener('keydown', fileUploadKeyPressHandler);
-    effectListElement.removeEventListener('click', effectsListClickHandler);
-    effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
-    hashtagsElement.removeEventListener('change', hashtagInputHandler);
-    hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
-    fileUploadElement.value = '';
+    executeOperationsBeforeCloseEffectForm();
   }
 };
 
