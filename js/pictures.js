@@ -215,7 +215,7 @@ var hashtagInputHandler = function (evt) {
     isNotDublicate: false,
     isNotManyHashtags: false,
     isCorrectLength: false,
-    checkValid: function() {
+    checkValid: function () {
       return this.isCorrectFirstSymbol && this.isNotOnlyHashtagSymbol &&
         this.isCorrectSplitter && this.isNotDublicate &&
         this.isNotManyHashtags && this.isCorrectLength;
@@ -300,7 +300,7 @@ var hashtagInputHandler = function (evt) {
   if (!validity.checkValid()) {
     var message = 'Ошибка ввода!';
     var messageSeparatop = '\n';
-    
+
     if (!validity.isCorrectFirstSymbol) {
       message += messageSeparatop + 'Хэш-тег начинается с символа # (решётка).';
     }
@@ -308,36 +308,25 @@ var hashtagInputHandler = function (evt) {
     if (!validity.isNotOnlyHashtagSymbol) {
       message += messageSeparatop + 'Хеш-тег не может состоять только из одной решётки.';
     }
-    
+
     if (!validity.isCorrectSplitter) {
       message += messageSeparatop + 'Хэш-теги разделяются пробелами.';
     }
-    
+
     if (!validity.isNotDublicate) {
       message += messageSeparatop + 'Один и тот же хэш-тег не может быть использован дважды.';
     }
-    
+
     if (!validity.isNotManyHashtags) {
       message += messageSeparatop + 'Нельзя указать больше пяти хэш-тегов.';
     }
-    
+
     if (!validity.isCorrectLength) {
       message += messageSeparatop + 'Нельзя указать больше пяти хэш-тегов.';
     }
 
     target.setCustomValidity(message);
-  } /*else if (!validity.isNotOnlyHashtagSymbol) {
-    target.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-  } else if (!validity.isCorrectSplitter) {
-    target.setCustomValidity('Хэш-теги разделяются пробелами');
-  } else if (!validity.isNotDublicate) {
-    target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
-  } else if (!validity.isNotManyHashtags) {
-    target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
-  } else if (!validity.isCorrectLength) {
-    target.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
-    
-  } */else {
+  } else {
     target.setCustomValidity('');
   }
 };
