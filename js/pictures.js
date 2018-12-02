@@ -318,6 +318,7 @@ insertPhotosRandomUsersElements();
 var hashtagInputHashtagEscPressHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     evt.stopPropagation();
+    evt.target.value = '';
   }
 };
 
@@ -443,4 +444,3 @@ fileUploadCancelElement.addEventListener('click', function () {
 
 fileUploadCancelElement.addEventListener('keydown', fileUploadEnterPressHandler);
 picturesElement.addEventListener('click', picturesContainerClickHandler, false);
-
