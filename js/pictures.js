@@ -28,6 +28,7 @@ var AVATAR_RANDOM_USER_WIDTH = 35;
 var AVATAR_RANDOM_USER_HEIGHT = 35;
 var ENTER_KEYCODE = 13;
 var ESC_KEYCODE = 27;
+var EVT_CLICK = 'click';
 var photosGuests = [];
 // Шаблон откуда берем разметку
 var pictureTemplateElement = document.querySelector('#picture')
@@ -180,8 +181,8 @@ var showBigPictureElement = function (elem) {
   socialCommentCountElement.classList.add('visually-hidden');
   commentsLoaderElement.classList.add('visually-hidden');
 
-  closeBigPictureElement.addEventListener('click', closeBigPictureClickHandler);
-  window.addEventListener('keydown', closeBigPictureEscPressHandler);
+  closeBigPictureElement.addEventListener('click', closeBigPictureHandler);
+  window.addEventListener('keydown', closeBigPictureHandler);
 };
 
 // Функция показывающая или скрывающая '.img-upload__overlay'
@@ -395,28 +396,17 @@ var picturesContainerClickHandler = function (evt) {
   }
 };
 
-var closeBigPictureEscPressHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+var closeBigPictureHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE || evt.type === EVT_CLICK) {
     var bigPictureElement = document.querySelector('.big-picture');
     var hashtagsElement = document.querySelector('.text__hashtags');
 
     bigPictureElement.classList.add('hidden');
-    closeBigPictureElement.removeEventListener('click', closeBigPictureClickHandler);
-    window.removeEventListener('keydown', closeBigPictureEscPressHandler);
+    closeBigPictureElement.removeEventListener('click', closeBigPictureHandler);
+    window.removeEventListener('keydown', closeBigPictureHandler);
     hashtagsElement.removeEventListener('input', hashtagInputHandler);
     hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
   }
-};
-
-var closeBigPictureClickHandler = function () {
-  var bigPictureElement = document.querySelector('.big-picture');
-  var hashtagsElement = document.querySelector('.text__hashtags');
-
-  bigPictureElement.classList.add('hidden');
-  closeBigPictureElement.removeEventListener('click', closeBigPictureClickHandler);
-  window.removeEventListener('keydown', closeBigPictureEscPressHandler);
-  hashtagsElement.removeEventListener('input', hashtagInputHandler);
-  hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
 };
 
 fileUploadElement.addEventListener('change', function () {
