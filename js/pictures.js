@@ -315,6 +315,12 @@ insertPhotosRandomUsersElements();
 
 // ОБРАБОТЧИКИ СОБЫТИЙ
 
+var hashtagInputHashtagEscPressHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    evt.stopPropagation();
+  }
+};
+
 var fileUploadEscPressHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     showFileUploadOverlay(false);
@@ -397,6 +403,7 @@ var closeBigPictureEscPressHandler = function (evt) {
     closeBigPictureElement.removeEventListener('click', closeBigPictureClickHandler);
     window.removeEventListener('keydown', closeBigPictureEscPressHandler);
     hashtagsElement.removeEventListener('input', hashtagInputHandler);
+    hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
   }
 };
 
@@ -408,6 +415,7 @@ var closeBigPictureClickHandler = function () {
   closeBigPictureElement.removeEventListener('click', closeBigPictureClickHandler);
   window.removeEventListener('keydown', closeBigPictureEscPressHandler);
   hashtagsElement.removeEventListener('input', hashtagInputHandler);
+  hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
 };
 
 fileUploadElement.addEventListener('change', function () {
@@ -419,6 +427,7 @@ fileUploadElement.addEventListener('change', function () {
   window.addEventListener('keydown', fileUploadEscPressHandler);
   effectListElement.addEventListener('click', effectsListClickHandler);
   hashtagsElement.addEventListener('input', hashtagInputHandler);
+  hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
 });
 
 fileUploadCancelElement.addEventListener('click', function () {
@@ -428,6 +437,7 @@ fileUploadCancelElement.addEventListener('click', function () {
   window.removeEventListener('keydown', fileUploadEscPressHandler);
   effectListElement.removeEventListener('click', effectsListClickHandler);
   hashtagsElement.removeEventListener('input', hashtagInputHandler);
+  hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
   fileUploadElement.value = '';
 });
 
