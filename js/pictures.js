@@ -42,7 +42,7 @@ var fileUploadCancelElement = document.querySelector('#upload-cancel');
 var effectListElement = document.querySelector('.effects__list');
 var picturesElement = document.querySelector('.pictures');
 var closeBigPictureElement = document.querySelector('.big-picture__cancel');
-var effectForm = document.querySelector('#upload-select-image');
+var effectFormElement = document.querySelector('#upload-select-image');
 
 // ФУНКЦИИ ДЛЯ СОЗДАНИЯ ИНФОРМАЦИИ О ФОТОГАФИЯХ ОТ СЛУЧАЙНЫХ ПОЛЬЗОВАТЕЛЕЙ
 
@@ -343,6 +343,11 @@ insertPhotosRandomUsersElements();
 
 // ОБРАБОТЧИКИ СОБЫТИЙ
 
+var effectFormSubmitHandler = function (evt) {
+  evt.preventDefault();
+  console.log(evt);
+};
+
 var hashtagInputHashtagEscPressHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     evt.stopPropagation();
@@ -360,6 +365,7 @@ var fileUploadKeyPressHandler = function (evt) {
     clearClassName(uploadImageElement);
     window.removeEventListener('keydown', fileUploadKeyPressHandler);
     effectListElement.removeEventListener('click', effectsListClickHandler);
+    effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
     hashtagsElement.removeEventListener('change', hashtagInputHandler);
     hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
     fileUploadElement.value = '';
@@ -439,6 +445,7 @@ fileUploadElement.addEventListener('change', function () {
   showFileUploadOverlay(true);
   window.addEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.addEventListener('click', effectsListClickHandler);
+  effectFormElement.addEventListener('submit', effectFormSubmitHandler);
   hashtagsElement.addEventListener('change', hashtagInputHandler);
   hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
 });
@@ -451,6 +458,7 @@ fileUploadCancelElement.addEventListener('click', function () {
   window.removeEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.removeEventListener('click', effectsListClickHandler);
   clearClassName(uploadImageElement);
+  effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
   hashtagsElement.removeEventListener('change', hashtagInputHandler);
   hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
   fileUploadElement.value = '';
