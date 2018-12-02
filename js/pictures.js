@@ -345,7 +345,7 @@ var hashtagInputHandler = function (evt) {
     }
 
     if (!validity.isCorrectLength) {
-      message += messageSeparatop + 'Нельзя указать больше пяти хэш-тегов.';
+      message += messageSeparatop + 'Максимальная длина одного хэш-тега 20 символов, включая решётку.';
     }
 
     target.setCustomValidity(message);
