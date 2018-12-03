@@ -42,6 +42,33 @@
     }
   };
 
+  // Функция возвращает нужный фильтр из имени класса DOM элемента
+  var getFilterName = function (nodeElement) {
+    for (var i = 0; i < EFFECTS.length; i++) {
+      var result = nodeElement.className.indexOf('--' + EFFECTS[i]);
+      if (result > -1) {
+        return EFFECTS[i];
+      }
+    }
+    return '';
+  };
+
+  var getFilterProperty = function (filter, value) {
+    switch (filter) {
+      case 'chrome':
+        return 'grayscale(' + value + ')';
+      case 'sepia':
+        return 'sepia(' + value + ')';
+      case 'marvin':
+        return 'invert(' + value + '%)';
+      case 'phobos':
+        return 'blur(' + value + 'px)';
+      case 'heat':
+        return 'brightness(' + value + ')';
+    }
+    return '';
+  };
+
   var mouseDownHandler = function (evt) {
     evt.preventDefault();
     var startPositionX = evt.clientX;
