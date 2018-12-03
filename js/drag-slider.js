@@ -31,6 +31,17 @@
 
   var uploadImageElement = document.querySelector('.img-upload__preview img');
 
+  // numeratorX - числитель левого числа дроби        - значение newX
+  // denominatorX - знаменатель левого числа дроби    - значение maxWidth
+  var resolveProportion = function (numeratorX, denominatorX, denominatorYMin, denominatorYMax) {
+    if (!denominatorYMin) {
+      return numeratorX * denominatorYMax / denominatorX;
+    } else {
+      var diff = denominatorYMax - denominatorYMin;
+      return (numeratorX * diff / denominatorX) + denominatorYMin;
+    }
+  };
+
   var mouseDownHandler = function (evt) {
     evt.preventDefault();
     var startPositionX = evt.clientX;
