@@ -26,8 +26,8 @@ var MAX_URL_ICON_IMAGE = 6;
 var AVATAR_RANDOM_USER_ALT = 'Аватар комментатора фотографии';
 var AVATAR_RANDOM_USER_WIDTH = 35;
 var AVATAR_RANDOM_USER_HEIGHT = 35;
-var ENTER_KEYCODE = 13;
 var ESC_KEYCODE = 27;
+var EVT_CLICK = 'click';
 var photosGuests = [];
 // Шаблон откуда берем разметку
 var pictureTemplateElement = document.querySelector('#picture')
@@ -41,6 +41,7 @@ var fileUploadCancelElement = document.querySelector('#upload-cancel');
 var effectListElement = document.querySelector('.effects__list');
 var picturesElement = document.querySelector('.pictures');
 var closeBigPictureElement = document.querySelector('.big-picture__cancel');
+var effectFormElement = document.querySelector('#upload-select-image');
 
 // ФУНКЦИИ ДЛЯ СОЗДАНИЯ ИНФОРМАЦИИ О ФОТОГАФИЯХ ОТ СЛУЧАЙНЫХ ПОЛЬЗОВАТЕЛЕЙ
 
@@ -180,8 +181,8 @@ var showBigPictureElement = function (elem) {
   socialCommentCountElement.classList.add('visually-hidden');
   commentsLoaderElement.classList.add('visually-hidden');
 
-  closeBigPictureElement.addEventListener('click', closeBigPictureClickHandler);
-  window.addEventListener('keydown', closeBigPictureEscPressHandler);
+  closeBigPictureElement.addEventListener('click', closeBigPictureHandler);
+  window.addEventListener('keydown', closeBigPictureHandler);
 };
 
 // Функция показывающая или скрывающая '.img-upload__overlay'
@@ -197,6 +198,164 @@ var showFileUploadOverlay = function (isShow) {
   }
 };
 
+var clearClassName = function (element) {
+  element.className = '';
+};
+
+var executeOperationsBeforeCloseEffectForm = function () {
+  var uploadImageElement = document.querySelector('.img-upload__preview img');
+  var hashtagsElement = document.querySelector('.text__hashtags');
+
+  showFileUploadOverlay(false);
+  clearClassName(uploadImageElement);
+  window.removeEventListener('keydown', fileUploadKeyPressHandler);
+  effectListElement.removeEventListener('click', effectsListClickHandler);
+  effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
+  hashtagsElement.removeEventListener('input', hashtagInputHandler);
+  hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
+  fileUploadElement.value = '';
+};
+
+// ВАЛИДАЦИЯ ХЕШЕЙ
+
+var hashtagInputHandler = function (evt) {
+  var MAX_HASHTAGS = 5;
+  var MAX_LENGTH_HASHTAG = 20;
+  var CHAR_SPLIT = ' ';
+  var CHAR_HASHTAG = '#';
+  var target;
+
+  if (evt.target.tagName !== 'INPUT') {
+    target = evt.target.querySelector('.text__hashtags');
+  } else {
+    target = evt.target;
+  }
+
+  var validity = {
+    isCorrectFirstSymbol: false,
+    isNotOnlyHashtagSymbol: false,
+    isCorrectSplitter: false,
+    isNotDublicate: false,
+    isNotManyHashtags: false,
+    isCorrectLength: false,
+    checkValid: function () {
+      return this.isCorrectFirstSymbol && this.isNotOnlyHashtagSymbol &&
+        this.isCorrectSplitter && this.isNotDublicate &&
+        this.isNotManyHashtags && this.isCorrectLength;
+    }
+  };
+
+  var checkFirstSymbol = function (strArr, char) {
+    for (var i = 0; i < strArr.length; i++) {
+      if (strArr[i][0] !== char) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  var checkNotOnlyOneSymbol = function (strArr, char) {
+    for (var i = 0; i < strArr.length; i++) {
+      if (strArr[i] === char) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  var checkCorrectSplitter = function (strArr, char) {
+    var MAX_COUNTS = 1;
+    var counts;
+
+    for (var i = 0; i < strArr.length; i++) {
+      counts = 0;
+      for (var j = 0; j < strArr[i].length; j++) {
+        if (strArr[i][j] === char) {
+          counts++;
+        }
+        if (counts > MAX_COUNTS) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
+  var checkMaxHashtags = function (strArr, maxElements) {
+    return strArr.length <= maxElements;
+  };
+
+  var checkDublicates = function (strArr) {
+    strArr.sort();
+
+    for (var i = 0; i < strArr.length - 1; i++) {
+      if (strArr[i] === strArr[i + 1]) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  var checkStringLength = function (strArr, maxLength) {
+    for (var i = 0; i < strArr.length; i++) {
+      if (strArr[i].length > maxLength) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  var hashtagInput = target;
+  var textInput = hashtagInput.value.toLowerCase();
+  var textSubstrings = textInput.split(CHAR_SPLIT);
+
+  validity.isCorrectFirstSymbol = checkFirstSymbol(textSubstrings, CHAR_HASHTAG);
+  validity.isNotOnlyHashtagSymbol = checkNotOnlyOneSymbol(textSubstrings, CHAR_HASHTAG);
+  validity.isCorrectSplitter = checkCorrectSplitter(textSubstrings, CHAR_HASHTAG);
+  validity.isNotDublicate = checkDublicates(textSubstrings);
+  validity.isNotManyHashtags = checkMaxHashtags(textSubstrings, MAX_HASHTAGS);
+  validity.isCorrectLength = checkStringLength(textSubstrings, MAX_LENGTH_HASHTAG);
+
+  if (!validity.checkValid()) {
+    var message = 'Ошибка ввода!';
+    var messageSeparatop = '\n';
+
+    if (!validity.isCorrectFirstSymbol) {
+      message += messageSeparatop + 'Хэш-тег начинается с символа # (решётка).';
+    }
+
+    if (!validity.isNotOnlyHashtagSymbol) {
+      message += messageSeparatop + 'Хеш-тег не может состоять только из одной решётки.';
+    }
+
+    if (!validity.isCorrectSplitter) {
+      message += messageSeparatop + 'Хэш-теги разделяются пробелами.';
+    }
+
+    if (!validity.isNotDublicate) {
+      message += messageSeparatop + 'Один и тот же хэш-тег не может быть использован дважды.';
+    }
+
+    if (!validity.isNotManyHashtags) {
+      message += messageSeparatop + 'Нельзя указать больше пяти хэш-тегов.';
+    }
+
+    if (!validity.isCorrectLength) {
+      message += messageSeparatop + 'Максимальная длина одного хэш-тега 20 символов, включая решётку.';
+    }
+
+    target.setCustomValidity(message);
+    return false;
+  } else {
+    target.setCustomValidity('');
+    return true;
+  }
+};
+
 // ВЫЗОВ ФУНКЦИЙ
 
 createDataInArray(photosGuests);
@@ -205,21 +364,23 @@ insertPhotosRandomUsersElements();
 
 // ОБРАБОТЧИКИ СОБЫТИЙ
 
-var fileUploadEscPressHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    showFileUploadOverlay(false);
-    window.removeEventListener('keydown', fileUploadEscPressHandler);
-    effectListElement.removeEventListener('click', effectsListClickHandler);
-    fileUploadElement.value = '';
+var effectFormSubmitHandler = function (evt) {
+  evt.preventDefault();
+  if (hashtagInputHandler(evt)) {
+    executeOperationsBeforeCloseEffectForm();
   }
 };
 
-var fileUploadEnterPressHandler = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    showFileUploadOverlay(false);
-    window.removeEventListener('keydown', fileUploadEscPressHandler);
-    effectListElement.removeEventListener('click', effectsListClickHandler);
-    fileUploadElement.value = '';
+var hashtagInputHashtagEscPressHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    evt.stopPropagation();
+    evt.target.value = '';
+  }
+};
+
+var fileUploadKeyPressHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    executeOperationsBeforeCloseEffectForm();
   }
 };
 
@@ -263,47 +424,47 @@ var effectsListClickHandler = function (evt) {
 
 var picturesContainerClickHandler = function (evt) {
   var target = evt.target;
+  var src = '';
+
+  if (target.tagName === 'A' && target.classList.contains('picture')) {
+    src = target.firstElementChild.attributes.src.nodeValue;
+  }
 
   if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
-    var src = target.attributes.src.nodeValue;
+    src = target.attributes.src.nodeValue;
+  }
 
+  if (src) {
     showBigPictureElement(searchElementArray(photosGuests, src));
   }
 };
 
-var closeBigPictureEscPressHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+var closeBigPictureHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE || evt.type === EVT_CLICK) {
     var bigPictureElement = document.querySelector('.big-picture');
 
     bigPictureElement.classList.add('hidden');
-    closeBigPictureElement.removeEventListener('click', closeBigPictureClickHandler);
-    window.removeEventListener('keydown', closeBigPictureEscPressHandler);
+    closeBigPictureElement.removeEventListener('click', closeBigPictureHandler);
+    window.removeEventListener('keydown', closeBigPictureHandler);
   }
-};
-
-var closeBigPictureClickHandler = function () {
-  var bigPictureElement = document.querySelector('.big-picture');
-
-  bigPictureElement.classList.add('hidden');
-  closeBigPictureElement.removeEventListener('click', closeBigPictureClickHandler);
-  window.removeEventListener('keydown', closeBigPictureEscPressHandler);
 };
 
 fileUploadElement.addEventListener('change', function () {
   var effectBarElement = document.querySelector('.img-upload__effect-level');
+  var hashtagsElement = document.querySelector('.text__hashtags');
 
   effectBarElement.classList.add('hidden');
   showFileUploadOverlay(true);
-  window.addEventListener('keydown', fileUploadEscPressHandler);
+  window.addEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.addEventListener('click', effectsListClickHandler);
+  effectFormElement.addEventListener('submit', effectFormSubmitHandler);
+  hashtagsElement.addEventListener('input', hashtagInputHandler);
+  hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
 });
 
 fileUploadCancelElement.addEventListener('click', function () {
-  showFileUploadOverlay(false);
-  window.removeEventListener('keydown', fileUploadEscPressHandler);
-  effectListElement.removeEventListener('click', effectsListClickHandler);
-  fileUploadElement.value = '';
+  executeOperationsBeforeCloseEffectForm();
 });
 
-fileUploadCancelElement.addEventListener('keydown', fileUploadEnterPressHandler);
-picturesElement.addEventListener('click', picturesContainerClickHandler);
+fileUploadCancelElement.addEventListener('keydown', fileUploadKeyPressHandler);
+picturesElement.addEventListener('click', picturesContainerClickHandler, false);
