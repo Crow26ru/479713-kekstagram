@@ -3,6 +3,7 @@
 (function () {
   var lineEffectSliderElement = document.querySelector('.effect-level__line');
   var pinEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__pin');
+  var levelEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__depth');
 
   var mouseDownHandler = function (evt) {
     evt.preventDefault();
@@ -23,8 +24,9 @@
       var newX = getPositionInnerMinMaxValues(startPositionX - shiftX, 0, maxWidth);
 
       pinEffectSliderElement.style.left = newX + 'px';
+      levelEffectSliderElement.style.width = newX + 'px';
     };
-    
+
     var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
       document.removeEventListener('mousemove', mouseMoveHandler);
@@ -32,7 +34,7 @@
     };
 
     document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);    
+    document.addEventListener('mouseup', mouseUpHandler);
   };
 
   pinEffectSliderElement.addEventListener('mousedown', mouseDownHandler);
