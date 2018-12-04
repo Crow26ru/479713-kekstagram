@@ -111,9 +111,9 @@
 
       pinEffectSliderElement.style.left = newX + 'px';
       levelEffectSliderElement.style.width = newX + 'px';
-      effect = getFilterName(uploadImageElement);
+      effect = getFilterName(window.uploadImageElement);
       valueEffect = resolveProportion(newX, maxWidth, effect.minValue, effect.maxValue);
-      setValueOfEffect(uploadImageElement, effect.name, valueEffect);
+      setValueOfEffect(window.uploadImageElement, effect.name, valueEffect);
     };
 
     var mouseUpHandler = function (upEvt) {
