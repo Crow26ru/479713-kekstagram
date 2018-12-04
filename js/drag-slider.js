@@ -69,8 +69,8 @@
     {
       name: 'heat',
       filter: 'brightness',
-      minValue: 0,
-      maxValue: 100,
+      minValue: 100,
+      maxValue: 300,
       measuringUnit: '%',
       getProperty: function (value) {
         return filter + '(' + value + measuringUnit + ')';
@@ -87,7 +87,7 @@
 
   var uploadImageElement = document.querySelector('.img-upload__preview img');
 
-  /*
+  
   // numeratorX - числитель левого числа дроби        - значение newX
   // denominatorX - знаменатель левого числа дроби    - значение maxWidth
   var resolveProportion = function (numeratorX, denominatorX, denominatorYMin, denominatorYMax) {
@@ -99,6 +99,7 @@
     }
   };
 
+  /*
   // Функция возвращает нужный фильтр из имени класса DOM элемента
   var getFilterName = function (nodeElement) {
     for (var i = 0; i < EFFECTS.length; i++) {
