@@ -58,11 +58,6 @@
   var pinEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__pin');
   var levelEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__depth');
 
-  // В будущем надо будет из этого модуля убрать создание переменной uploadImageElement
-  // Её создаст другой модуль в глобальную облась видимости
-
-  var uploadImageElement = document.querySelector('.img-upload__preview img');
-
   // numeratorX - числитель левого числа дроби        - значение newX
   // denominatorX - знаменатель левого числа дроби    - значение maxWidth
   var resolveProportion = function (numeratorX, denominatorX, denominatorYMin, denominatorYMax) {
