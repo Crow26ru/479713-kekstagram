@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  /*
   var EFFECTS = [
     'chrome',
     'sepia',
@@ -22,6 +23,61 @@
     phobos: 0,
     heat: 1
   };
+  */
+  
+  var effects = [
+    {
+      name: 'chrome',
+      filter: 'grayscale',
+      minValue: 0,
+      maxValue: 100,
+      measuringUnit: '%',
+      getProperty: function (value) {
+        return filter + '(' + value + measuringUnit + ')';
+      };
+    },
+    {
+      name: 'sepia',
+      filter: 'sepia',
+      minValue: 0,
+      maxValue: 100,
+      measuringUnit: '%'
+      getProperty: function (value) {
+        return filter + '(' + value + measuringUnit + ')';
+      };
+    },
+    {
+      name: 'marvin',
+      filter: 'invert',
+      minValue: 0,
+      maxValue: 100,
+      measuringUnit: '%',
+      getProperty: function (value) {
+        return filter + '(' + value + measuringUnit + ')';
+      };
+    },
+    {
+      name: 'phobos',
+      filter: 'blur',
+      minValue: 0,
+      maxValue: 3,
+      measuringUnit: 'px',
+      getProperty: function (value) {
+        return filter + '(' + value + measuringUnit + ')';
+      };
+    },
+    {
+      name: 'heat',
+      filter: 'brightness',
+      minValue: 0,
+      maxValue: 100,
+      measuringUnit: '%',
+      getProperty: function (value) {
+        return filter + '(' + value + measuringUnit + ')';
+      };
+    }
+  ];
+  
   var lineEffectSliderElement = document.querySelector('.effect-level__line');
   var pinEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__pin');
   var levelEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__depth');
@@ -31,6 +87,7 @@
 
   var uploadImageElement = document.querySelector('.img-upload__preview img');
 
+  /*
   // numeratorX - числитель левого числа дроби        - значение newX
   // denominatorX - знаменатель левого числа дроби    - значение maxWidth
   var resolveProportion = function (numeratorX, denominatorX, denominatorYMin, denominatorYMax) {
@@ -68,6 +125,7 @@
     }
     return '';
   };
+  /*
 
   var mouseDownHandler = function (evt) {
     evt.preventDefault();
@@ -89,6 +147,7 @@
 
       pinEffectSliderElement.style.left = newX + 'px';
       levelEffectSliderElement.style.width = newX + 'px';
+
     };
 
     var mouseUpHandler = function (upEvt) {
