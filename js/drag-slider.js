@@ -1,30 +1,6 @@
 'use strict';
 
 (function () {
-  /*
-  var EFFECTS = [
-    'chrome',
-    'sepia',
-    'marvin',
-    'phobos',
-    'heat'
-  ];
-  var MAX_VALUES_EFFECTS = {
-    chrome: 1,
-    sepia: 1,
-    marvin: 100,
-    phobos: 3,
-    heat: 3
-  };
-  var MIN_VALUES_EFFECTS = {
-    chrome: 0,
-    sepia: 0,
-    marvin: 0,
-    phobos: 0,
-    heat: 1
-  };
-  */
-  
   var effects = [
     {
       name: 'chrome',
@@ -33,18 +9,18 @@
       maxValue: 100,
       measuringUnit: '%',
       getProperty: function (value) {
-        return filter + '(' + value + measuringUnit + ')';
-      };
+        return this.filter + '(' + value + this.measuringUnit + ')';
+      }
     },
     {
       name: 'sepia',
       filter: 'sepia',
       minValue: 0,
       maxValue: 100,
-      measuringUnit: '%'
+      measuringUnit: '%',
       getProperty: function (value) {
-        return filter + '(' + value + measuringUnit + ')';
-      };
+        return this.filter + '(' + value + this.measuringUnit + ')';
+      }
     },
     {
       name: 'marvin',
@@ -53,8 +29,8 @@
       maxValue: 100,
       measuringUnit: '%',
       getProperty: function (value) {
-        return filter + '(' + value + measuringUnit + ')';
-      };
+        return this.filter + '(' + value + this.measuringUnit + ')';
+      }
     },
     {
       name: 'phobos',
@@ -63,8 +39,8 @@
       maxValue: 3,
       measuringUnit: 'px',
       getProperty: function (value) {
-        return filter + '(' + value + measuringUnit + ')';
-      };
+        return this.filter + '(' + value + this.measuringUnit + ')';
+      }
     },
     {
       name: 'heat',
@@ -73,11 +49,11 @@
       maxValue: 300,
       measuringUnit: '%',
       getProperty: function (value) {
-        return filter + '(' + value + measuringUnit + ')';
-      };
+        return this.filter + '(' + value + this.measuringUnit + ')';
+      }
     }
   ];
-  
+
   var lineEffectSliderElement = document.querySelector('.effect-level__line');
   var pinEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__pin');
   var levelEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__depth');
@@ -87,7 +63,6 @@
 
   var uploadImageElement = document.querySelector('.img-upload__preview img');
 
-  
   // numeratorX - числитель левого числа дроби        - значение newX
   // denominatorX - знаменатель левого числа дроби    - значение maxWidth
   var resolveProportion = function (numeratorX, denominatorX, denominatorYMin, denominatorYMax) {
@@ -99,34 +74,25 @@
     }
   };
 
-  /*
   // Функция возвращает нужный фильтр из имени класса DOM элемента
   var getFilterName = function (nodeElement) {
-    for (var i = 0; i < EFFECTS.length; i++) {
-      var result = nodeElement.className.indexOf('--' + EFFECTS[i]);
+    for (var i = 0; i < effects.length; i++) {
+      var result = nodeElement.className.indexOf('--' + effects[i].name);
       if (result > -1) {
-        return EFFECTS[i];
+        return effects[i];
       }
     }
-    return '';
+    return null;
   };
 
-  var getFilterProperty = function (filter, value) {
-    switch (filter) {
-      case 'chrome':
-        return 'grayscale(' + value + ')';
-      case 'sepia':
-        return 'sepia(' + value + ')';
-      case 'marvin':
-        return 'invert(' + value + '%)';
-      case 'phobos':
-        return 'blur(' + value + 'px)';
-      case 'heat':
-        return 'brightness(' + value + ')';
+  // Функция устанавливает в атрибут style свойство filter для DOM элемента
+  var setValueOfEffect = function (nodeElement, filerName, value) {
+    for (var i = 0; i < effects.length; i++) {
+      if (filerName === effects[i].name) {
+        nodeElement.style.filter = effects[i].getProperty(value);
+      }
     }
-    return '';
   };
-  /*
 
   var mouseDownHandler = function (evt) {
     evt.preventDefault();
@@ -137,6 +103,8 @@
       var shiftX = startPositionX - pinEffectSliderElement.offsetLeft;
       var stylesLineEffectSlider = getComputedStyle(lineEffectSliderElement);
       var maxWidth = parseInt(stylesLineEffectSlider.width, 10);
+      var effect;
+      var valueEffect;
 
       var getPositionInnerMinMaxValues = function (value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -148,7 +116,9 @@
 
       pinEffectSliderElement.style.left = newX + 'px';
       levelEffectSliderElement.style.width = newX + 'px';
-
+      effect = getFilterName(uploadImageElement);
+      valueEffect = resolveProportion(newX, maxWidth, effect.minValue, effect.maxValue);
+      setValueOfEffect(uploadImageElement, effect.name, valueEffect);
     };
 
     var mouseUpHandler = function (upEvt) {
