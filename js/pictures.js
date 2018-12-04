@@ -42,6 +42,8 @@ var effectListElement = document.querySelector('.effects__list');
 var picturesElement = document.querySelector('.pictures');
 var closeBigPictureElement = document.querySelector('.big-picture__cancel');
 var effectFormElement = document.querySelector('#upload-select-image');
+var uploadImageElement = document.querySelector('.img-upload__preview img');
+window.uploadImageElement = uploadImageElement;
 
 // ФУНКЦИИ ДЛЯ СОЗДАНИЯ ИНФОРМАЦИИ О ФОТОГАФИЯХ ОТ СЛУЧАЙНЫХ ПОЛЬЗОВАТЕЛЕЙ
 
@@ -203,11 +205,10 @@ var clearClassName = function (element) {
 };
 
 var executeOperationsBeforeCloseEffectForm = function () {
-  var uploadImageElement = document.querySelector('.img-upload__preview img');
   var hashtagsElement = document.querySelector('.text__hashtags');
 
   showFileUploadOverlay(false);
-  clearClassName(uploadImageElement);
+  clearClassName(window.uploadImageElement);
   window.removeEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.removeEventListener('click', effectsListClickHandler);
   effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
@@ -403,16 +404,18 @@ var effectsListClickHandler = function (evt) {
   if (target.tagName === 'SPAN') {
     var length = target.classList.length;
     var lastElementClassList = target.classList[length - 1];
-    var uploadImageElement = document.querySelector('.img-upload__preview img');
     var effectBarElement = document.querySelector('.img-upload__effect-level');
 
-    if (uploadImageElement.className) {
-      uploadImageElement.className = '';
+    if (window.uploadImageElement.className) {
+      window.uploadImageElement.className = '';
     }
 
-    uploadImageElement.classList.add(lastElementClassList);
+    window.uploadImageElement.style.filter = '';
+    window.dragSlider.levelEffectSliderElement.style.width = window.dragSlider.defaultPositon;
+    window.dragSlider.pinEffectSliderElement.style.left = window.dragSlider.defaultPositon;
+    window.uploadImageElement.classList.add(lastElementClassList);
 
-    if (uploadImageElement.classList.contains('effects__preview--none')) {
+    if (window.uploadImageElement.classList.contains('effects__preview--none')) {
       effectBarElement.classList.add('hidden');
     } else {
       if (effectBarElement.classList.contains('hidden')) {
