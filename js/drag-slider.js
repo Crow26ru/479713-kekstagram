@@ -54,6 +54,7 @@
     }
   ];
 
+  var defaultPositon = '100%';
   var lineEffectSliderElement = document.querySelector('.effect-level__line');
   var pinEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__pin');
   var levelEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__depth');
@@ -132,6 +133,7 @@
   // Для сброса их в начальное состояние при перключении фильтор
   window.dragSlider = {
     pinEffectSliderElement: pinEffectSliderElement,
-    levelEffectSliderElement: levelEffectSliderElement
+    levelEffectSliderElement: levelEffectSliderElement,
+    defaultPositon: defaultPositon
   };
 })();
