@@ -410,6 +410,9 @@ var effectsListClickHandler = function (evt) {
       window.uploadImageElement.className = '';
     }
 
+    window.uploadImageElement.style.filter = '';
+    window.dragSlider.levelEffectSliderElement.style.width = window.dragSlider.defaultPositon;
+    window.dragSlider.pinEffectSliderElement.style.left = window.dragSlider.defaultPositon;
     window.uploadImageElement.classList.add(lastElementClassList);
 
     if (window.uploadImageElement.classList.contains('effects__preview--none')) {
