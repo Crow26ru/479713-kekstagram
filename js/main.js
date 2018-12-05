@@ -23,7 +23,7 @@ window.uploadImageElement = uploadImageElement;
 // ФУНКЦИИ ДЛЯ РАБОТЫ С ЭЛЕМЕНТАМИ МАССИВА
 
 var searchElementArray = function (arr, url) {
-  for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
+  for (var i = 0; i < window.pictures.TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
     if (arr[i].url === url) {
       return arr[i];
     }
@@ -46,7 +46,7 @@ var createElement = function (tag, className, text) {
 
 var createImgElement = function (className) {
   var someImgElement = createElement('img', className);
-  var src = 'img/avatar-' + getRandomNumber(MIN_URL_ICON_IMAGE, MAX_URL_ICON_IMAGE) + '.svg';
+  var src = 'img/avatar-' + window.util.getRandomNumber(MIN_URL_ICON_IMAGE, MAX_URL_ICON_IMAGE) + '.svg';
   someImgElement.src = src;
   someImgElement.alt = AVATAR_RANDOM_USER_ALT;
   someImgElement.width = AVATAR_RANDOM_USER_WIDTH;
@@ -350,7 +350,7 @@ var picturesContainerClickHandler = function (evt) {
   }
 
   if (src) {
-    showBigPictureElement(searchElementArray(photosGuests, src));
+    showBigPictureElement(searchElementArray(window.pictures.photosGuests, src));
   }
 };
 

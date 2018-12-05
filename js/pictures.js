@@ -33,7 +33,7 @@
     for (var i = 1; i <= TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
       var photoInfo = {
         url: getUrlForPhoto(i),
-        likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
+        likes: window.util.getRandomNumber(MIN_LIKES, MAX_LIKES),
         comments: getComments(MIN_COMMENTS, MAX_COMMENTS),
         description: getRandomElementArray(DESCRIPTIONS)
       };
@@ -46,20 +46,13 @@
   };
 
   var getComments = function (min, max) {
-    var totalComments = getRandomNumber(min, max);
+    var totalComments = window.util.getRandomNumber(min, max);
     var comments = [];
 
     for (var i = 0; i < totalComments; i++) {
       comments.push(getRandomElementArray(COMMENTS));
     }
     return comments;
-  };
-
-  // ФУНКЦИИ ВОЗВРАЩАЮЩИЕ СЛУЧАЙНЫЙ РЕЗУЛЬТАТ
-
-  var getRandomNumber = function (min, max) {
-    var range = max - min + 1;
-    return Math.floor(Math.random() * range) + min;
   };
 
   var getRandomElementArray = function (arr) {
@@ -83,7 +76,8 @@
   };
 
   window.pictures = {
-    TOTAL_PHOTOS_FROM_RANDOM_USERS: TOTAL_PHOTOS_FROM_RANDOM_USERS
+    TOTAL_PHOTOS_FROM_RANDOM_USERS: TOTAL_PHOTOS_FROM_RANDOM_USERS,
+    photosGuests: photosGuests
   };
 
   createDataInArray(photosGuests);
