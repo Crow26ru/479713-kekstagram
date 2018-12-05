@@ -10,6 +10,9 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -20,6 +23,9 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -30,6 +36,9 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -40,6 +49,9 @@
       measuringUnit: 'px',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -50,6 +62,9 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     }
   ];
@@ -115,9 +130,9 @@
       levelEffectSliderElement.style.width = newX + 'px';
 
       // Это и связанные с ними переменные надо завернуть в callback?
-      effect = getFilterName(window.uploadImageElement);
+      effect = getFilterName(window.upload);
       valueEffect = resolveProportion(newX, maxWidth, effect.minValue, effect.maxValue);
-      setValueOfEffect(window.uploadImageElement, effect.name, valueEffect);
+      setValueOfEffect(window.upload, effect.name, valueEffect);
       inputValueElement.value = valueEffect;
     };
 
@@ -135,7 +150,8 @@
 
   // Пин и бар уровня эффектов потребуются
   // Для сброса их в начальное состояние при перключении фильтор
-  window.dragSlider = {
+  window.filter = {
+    effects: effects,
     pinEffectSliderElement: pinEffectSliderElement,
     levelEffectSliderElement: levelEffectSliderElement,
     defaultPositon: defaultPositon

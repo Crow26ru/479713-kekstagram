@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.hashtagInputHandler = function (evt) {
+  window.validate = function (evt) {
     var MAX_HASHTAGS = 5;
     var MAX_LENGTH_HASHTAG = 20;
     var CHAR_SPLIT = ' ';

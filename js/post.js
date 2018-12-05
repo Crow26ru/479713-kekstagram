@@ -68,7 +68,7 @@
     }
   };
 
-  window.modalBigPicture = {
+  window.post = {
     showBigPictureElement: function (elem) {
       var alt = 'Фото рандомного пользователя';
       var bigPictureElement = document.querySelector('.big-picture');

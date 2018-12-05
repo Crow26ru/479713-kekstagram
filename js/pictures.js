@@ -97,7 +97,7 @@
     }
 
     if (src) {
-      window.modalBigPicture.showBigPictureElement(searchElementArray(photosGuests, src));
+      window.post.showBigPictureElement(searchElementArray(photosGuests, src));
     }
   };
 
