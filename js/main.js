@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 var COMMENTS = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -21,19 +21,23 @@ var MIN_LIKES = 15;
 var MAX_LIKES = 200;
 var MIN_COMMENTS = 5;
 var MAX_COMMENTS = 15;
+*/
 var MIN_URL_ICON_IMAGE = 1;
 var MAX_URL_ICON_IMAGE = 6;
 var AVATAR_RANDOM_USER_ALT = 'Аватар комментатора фотографии';
 var AVATAR_RANDOM_USER_WIDTH = 35;
 var AVATAR_RANDOM_USER_HEIGHT = 35;
+
 var ESC_KEYCODE = 27;
-var photosGuests = [];
+// var photosGuests = [];
 // Шаблон откуда берем разметку
+/*
 var pictureTemplateElement = document.querySelector('#picture')
      .content
      .querySelector('.picture');
 // Куда будем вставлять разметку из шаблона
 var picturesListElement = document.querySelector('.pictures');
+*/
 // Секция загрузки нового изображения
 var fileUploadElement = document.querySelector('#upload-file');
 var fileUploadCancelElement = document.querySelector('#upload-cancel');
@@ -42,10 +46,12 @@ var picturesElement = document.querySelector('.pictures');
 var closeBigPictureElement = document.querySelector('.big-picture__cancel');
 var effectFormElement = document.querySelector('#upload-select-image');
 var uploadImageElement = document.querySelector('.img-upload__preview img');
+
+// Здесь надо будет исправить экспорт!
 window.uploadImageElement = uploadImageElement;
 
 // ФУНКЦИИ ДЛЯ СОЗДАНИЯ ИНФОРМАЦИИ О ФОТОГАФИЯХ ОТ СЛУЧАЙНЫХ ПОЛЬЗОВАТЕЛЕЙ
-
+/*
 var createDataInArray = function (arr) {
   for (var i = 1; i <= TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
     var photoInfo = {
@@ -72,7 +78,7 @@ var getComments = function (min, max) {
 
   return comments;
 };
-
+*/
 // ФУНКЦИИ ДЛЯ РАБОТЫ С ЭЛЕМЕНТАМИ МАССИВА
 
 var searchElementArray = function (arr, url) {
@@ -85,7 +91,7 @@ var searchElementArray = function (arr, url) {
 };
 
 // ФУНКЦИИ ВОЗВРАЩАЮЩИЕ СЛУЧАЙНЫЙ РЕЗУЛЬТАТ
-
+/*
 var getRandomNumber = function (min, max) {
   var range = max - min + 1;
   return Math.floor(Math.random() * range) + min;
@@ -94,7 +100,7 @@ var getRandomNumber = function (min, max) {
 var getRandomElementArray = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
-
+*/
 // ФУНКЦИИ ДЛЯ ВЗАИМОДЕЙСТВИЯ С DOM
 
 var createElement = function (tag, className, text) {
@@ -147,7 +153,7 @@ var insertCommentListElement = function (elem) {
   var commentsElement = document.querySelector('.social__comments');
   commentsElement.appendChild(createCommentListElement(elem));
 };
-
+/*
 var insertPhotosRandomUsersElements = function () {
   var fragment = document.createDocumentFragment();
 
@@ -164,7 +170,7 @@ var insertPhotosRandomUsersElements = function () {
 
   picturesListElement.appendChild(fragment);
 };
-
+*/
 var showBigPictureElement = function (elem) {
   var alt = 'Фото рандомного пользователя';
   var bigPictureElement = document.querySelector('.big-picture');
@@ -358,8 +364,8 @@ var hashtagInputHandler = function (evt) {
 
 // ВЫЗОВ ФУНКЦИЙ
 
-createDataInArray(photosGuests);
-insertPhotosRandomUsersElements();
+// createDataInArray(photosGuests);
+// insertPhotosRandomUsersElements();
 // showBigPictureElement(searchElementArray(photosGuests, 'photos/1.jpg'));
 
 // ОБРАБОТЧИКИ СОБЫТИЙ
