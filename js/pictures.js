@@ -27,7 +27,7 @@
   var pictureTemplateElement = document.querySelector('#picture')
      .content
      .querySelector('.picture');
-  var picturesListElement = document.querySelector('.pictures');
+  var picturesElement = document.querySelector('.pictures');
 
   var createDataInArray = function (arr) {
     for (var i = 1; i <= TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
@@ -72,12 +72,13 @@
       imageRandomElement.querySelector('.picture__comments').textContent = comments.length;
       fragment.appendChild(imageRandomElement);
     }
-    picturesListElement.appendChild(fragment);
+    picturesElement.appendChild(fragment);
   };
 
   window.pictures = {
     TOTAL_PHOTOS_FROM_RANDOM_USERS: TOTAL_PHOTOS_FROM_RANDOM_USERS,
-    photosGuests: photosGuests
+    photosGuests: photosGuests,
+    picturesElement: picturesElement
   };
 
   createDataInArray(photosGuests);

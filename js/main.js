@@ -1,19 +1,20 @@
 'use strict';
 
+/*
 var MIN_URL_ICON_IMAGE = 1;
 var MAX_URL_ICON_IMAGE = 6;
 var AVATAR_RANDOM_USER_ALT = 'Аватар комментатора фотографии';
 var AVATAR_RANDOM_USER_WIDTH = 35;
 var AVATAR_RANDOM_USER_HEIGHT = 35;
+*/
 
-var ESC_KEYCODE = 27;
+// var ESC_KEYCODE = 27;
 
 // Секция загрузки нового изображения
 var fileUploadElement = document.querySelector('#upload-file');
 var fileUploadCancelElement = document.querySelector('#upload-cancel');
 var effectListElement = document.querySelector('.effects__list');
-var picturesElement = document.querySelector('.pictures');
-var closeBigPictureElement = document.querySelector('.big-picture__cancel');
+// var closeBigPictureElement = document.querySelector('.big-picture__cancel');
 var effectFormElement = document.querySelector('#upload-select-image');
 var uploadImageElement = document.querySelector('.img-upload__preview img');
 
@@ -33,6 +34,8 @@ var searchElementArray = function (arr, url) {
 
 // ФУНКЦИИ ДЛЯ ВЗАИМОДЕЙСТВИЯ С DOM
 
+/*
+//
 var createElement = function (tag, className, text) {
   var someElement = document.createElement(tag);
   someElement.classList.add(className);
@@ -44,6 +47,7 @@ var createElement = function (tag, className, text) {
   return someElement;
 };
 
+//
 var createImgElement = function (className) {
   var someImgElement = createElement('img', className);
   var src = 'img/avatar-' + window.util.getRandomNumber(MIN_URL_ICON_IMAGE, MAX_URL_ICON_IMAGE) + '.svg';
@@ -54,6 +58,7 @@ var createImgElement = function (className) {
   return someImgElement;
 };
 
+//
 var createCommentListElement = function (elem) {
   var totalShowComments = 3;
   var commentsListElement = document.createDocumentFragment();
@@ -79,11 +84,13 @@ var createCommentListElement = function (elem) {
   return commentsListElement;
 };
 
+//
 var insertCommentListElement = function (elem) {
   var commentsElement = document.querySelector('.social__comments');
   commentsElement.appendChild(createCommentListElement(elem));
 };
 
+//
 var showBigPictureElement = function (elem) {
   var alt = 'Фото рандомного пользователя';
   var bigPictureElement = document.querySelector('.big-picture');
@@ -104,6 +111,7 @@ var showBigPictureElement = function (elem) {
   closeBigPictureElement.addEventListener('click', closeBigPictureHandler);
   window.addEventListener('keydown', closeBigPictureHandler);
 };
+*/
 
 // Функция показывающая или скрывающая '.img-upload__overlay'
 // Значение true параметра isShow показывает оверлей
@@ -285,14 +293,14 @@ var effectFormSubmitHandler = function (evt) {
 };
 
 var hashtagInputHashtagEscPressHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === window.util.ESC_KEYCODE) {
     evt.stopPropagation();
     evt.target.value = '';
   }
 };
 
 var fileUploadKeyPressHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === window.util.ESC_KEYCODE) {
     executeOperationsBeforeCloseEffectForm();
   }
 };
@@ -350,10 +358,12 @@ var picturesContainerClickHandler = function (evt) {
   }
 
   if (src) {
-    showBigPictureElement(searchElementArray(window.pictures.photosGuests, src));
+    window.modalBigPicture.showBigPictureElement(searchElementArray(window.pictures.photosGuests, src));
   }
 };
 
+/*
+//
 var closeBigPictureHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE || evt.type === 'click') {
     var bigPictureElement = document.querySelector('.big-picture');
@@ -363,6 +373,7 @@ var closeBigPictureHandler = function (evt) {
     window.removeEventListener('keydown', closeBigPictureHandler);
   }
 };
+*/
 
 fileUploadElement.addEventListener('change', function () {
   var effectBarElement = document.querySelector('.img-upload__effect-level');
@@ -382,4 +393,4 @@ fileUploadCancelElement.addEventListener('click', function () {
 });
 
 fileUploadCancelElement.addEventListener('keydown', fileUploadKeyPressHandler);
-picturesElement.addEventListener('click', picturesContainerClickHandler, false);
+window.pictures.picturesElement.addEventListener('click', picturesContainerClickHandler, false);
