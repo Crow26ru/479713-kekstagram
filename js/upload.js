@@ -68,18 +68,19 @@
 
       uploadImageElement.removeAttribute('class');
       uploadImageElement.removeAttribute('style');
-
-      for (var i = 0; i < window.filter.effects.length; i++) {
-        var result = lastElementClassList.indexOf(window.filter.effects[i].name);
-        if (result > -1) {
-          uploadImageElement.style.filter = window.filter.effects[i].name;
-          break;
-        }
-      }
-
       window.filter.levelEffectSliderElement.style.width = window.filter.defaultPositon;
       window.filter.pinEffectSliderElement.style.left = window.filter.defaultPositon;
       uploadImageElement.classList.add(lastElementClassList);
+
+      for (var i = 0; i < window.filter.effects.length; i++) {
+        var result = lastElementClassList.split('--');
+        result = window.filter.effects[i].isFilter(result[1]);
+
+        if (result) {
+          uploadImageElement.style.filter = window.filter.effects[i].getMaxValueProperty();
+          break;
+        }
+      }
 
       if (uploadImageElement.classList.contains('effects__preview--none')) {
         effectBarElement.classList.add('hidden');
