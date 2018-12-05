@@ -101,6 +101,7 @@
       var maxWidth = parseInt(stylesLineEffectSlider.width, 10);
       var effect;
       var valueEffect;
+      var inputValueElement = document.querySelector('.effect-level__value');
 
       var getPositionInnerMinMaxValues = function (value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -112,9 +113,12 @@
 
       pinEffectSliderElement.style.left = newX + 'px';
       levelEffectSliderElement.style.width = newX + 'px';
+
+      // Это и связанные с ними переменные надо завернуть в callback?
       effect = getFilterName(window.uploadImageElement);
       valueEffect = resolveProportion(newX, maxWidth, effect.minValue, effect.maxValue);
       setValueOfEffect(window.uploadImageElement, effect.name, valueEffect);
+      inputValueElement.value = valueEffect;
     };
 
     var mouseUpHandler = function (upEvt) {
