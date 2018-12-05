@@ -59,6 +59,15 @@
     return arr[Math.floor(Math.random() * arr.length)];
   };
 
+  var searchElementArray = function (arr, url) {
+    for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
+      if (arr[i].url === url) {
+        return arr[i];
+      }
+    }
+    return null;
+  };
+
   var insertPhotosRandomUsersElements = function () {
     var fragment = document.createDocumentFragment();
 
@@ -75,12 +84,29 @@
     picturesElement.appendChild(fragment);
   };
 
+  var picturesContainerClickHandler = function (evt) {
+    var target = evt.target;
+    var src = '';
+
+    if (target.tagName === 'A' && target.classList.contains('picture')) {
+      src = target.firstElementChild.attributes.src.nodeValue;
+    }
+
+    if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
+      src = target.attributes.src.nodeValue;
+    }
+
+    if (src) {
+      window.modalBigPicture.showBigPictureElement(searchElementArray(photosGuests, src));
+    }
+  };
+
   window.pictures = {
     TOTAL_PHOTOS_FROM_RANDOM_USERS: TOTAL_PHOTOS_FROM_RANDOM_USERS,
-    photosGuests: photosGuests,
     picturesElement: picturesElement
   };
 
   createDataInArray(photosGuests);
   insertPhotosRandomUsersElements();
+  picturesElement.addEventListener('click', picturesContainerClickHandler, false);
 })();

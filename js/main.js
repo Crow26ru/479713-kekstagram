@@ -1,15 +1,5 @@
 'use strict';
 
-/*
-var MIN_URL_ICON_IMAGE = 1;
-var MAX_URL_ICON_IMAGE = 6;
-var AVATAR_RANDOM_USER_ALT = 'Аватар комментатора фотографии';
-var AVATAR_RANDOM_USER_WIDTH = 35;
-var AVATAR_RANDOM_USER_HEIGHT = 35;
-*/
-
-// var ESC_KEYCODE = 27;
-
 // Секция загрузки нового изображения
 var fileUploadElement = document.querySelector('#upload-file');
 var fileUploadCancelElement = document.querySelector('#upload-cancel');
@@ -21,97 +11,7 @@ var uploadImageElement = document.querySelector('.img-upload__preview img');
 // Здесь надо будет исправить экспорт!
 window.uploadImageElement = uploadImageElement;
 
-// ФУНКЦИИ ДЛЯ РАБОТЫ С ЭЛЕМЕНТАМИ МАССИВА
-
-var searchElementArray = function (arr, url) {
-  for (var i = 0; i < window.pictures.TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
-    if (arr[i].url === url) {
-      return arr[i];
-    }
-  }
-  return null;
-};
-
 // ФУНКЦИИ ДЛЯ ВЗАИМОДЕЙСТВИЯ С DOM
-
-/*
-//
-var createElement = function (tag, className, text) {
-  var someElement = document.createElement(tag);
-  someElement.classList.add(className);
-
-  if (text) {
-    someElement.textContent = text;
-  }
-
-  return someElement;
-};
-
-//
-var createImgElement = function (className) {
-  var someImgElement = createElement('img', className);
-  var src = 'img/avatar-' + window.util.getRandomNumber(MIN_URL_ICON_IMAGE, MAX_URL_ICON_IMAGE) + '.svg';
-  someImgElement.src = src;
-  someImgElement.alt = AVATAR_RANDOM_USER_ALT;
-  someImgElement.width = AVATAR_RANDOM_USER_WIDTH;
-  someImgElement.height = AVATAR_RANDOM_USER_HEIGHT;
-  return someImgElement;
-};
-
-//
-var createCommentListElement = function (elem) {
-  var totalShowComments = 3;
-  var commentsListElement = document.createDocumentFragment();
-  var socialCommentsElement = document.querySelector('.social__comments');
-
-  while (socialCommentsElement.children.length >= totalShowComments) {
-    socialCommentsElement.removeChild(socialCommentsElement.lastChild);
-  }
-
-  for (var i = 0; i < elem.comments.length; i++) {
-    var listItemElement = createElement('li', 'social__comment');
-    var imgElement = createImgElement('social__picture');
-    var pElement = createElement('p', 'social__text', elem.comments[i]);
-    listItemElement.appendChild(imgElement);
-    listItemElement.appendChild(pElement);
-
-    if (i >= totalShowComments) {
-      listItemElement.classList.add('visually-hidden');
-    }
-    commentsListElement.appendChild(listItemElement);
-  }
-
-  return commentsListElement;
-};
-
-//
-var insertCommentListElement = function (elem) {
-  var commentsElement = document.querySelector('.social__comments');
-  commentsElement.appendChild(createCommentListElement(elem));
-};
-
-//
-var showBigPictureElement = function (elem) {
-  var alt = 'Фото рандомного пользователя';
-  var bigPictureElement = document.querySelector('.big-picture');
-  var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
-  var socialCommentCountElement = bigPictureElement.querySelector('.social__comment-count');
-  var commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
-
-  bigPictureElement.classList.remove('hidden');
-  bigPictureElement.querySelector('.big-picture__img img').src = elem.url;
-  bigPictureElement.querySelector('.big-picture__img img').alt = alt;
-  bigPictureElement.querySelector('.likes-count').textContent = elem.likes;
-  bigPictureElement.querySelector('.comments-count').textContent = elem.comments.length;
-  insertCommentListElement(elem);
-  socialCaptionElement.textContent = elem.description;
-  socialCommentCountElement.classList.add('visually-hidden');
-  commentsLoaderElement.classList.add('visually-hidden');
-
-  closeBigPictureElement.addEventListener('click', closeBigPictureHandler);
-  window.addEventListener('keydown', closeBigPictureHandler);
-};
-*/
 
 // Функция показывающая или скрывающая '.img-upload__overlay'
 // Значение true параметра isShow показывает оверлей
@@ -345,36 +245,6 @@ var effectsListClickHandler = function (evt) {
   }
 };
 
-var picturesContainerClickHandler = function (evt) {
-  var target = evt.target;
-  var src = '';
-
-  if (target.tagName === 'A' && target.classList.contains('picture')) {
-    src = target.firstElementChild.attributes.src.nodeValue;
-  }
-
-  if (target.tagName === 'IMG' && target.classList.contains('picture__img')) {
-    src = target.attributes.src.nodeValue;
-  }
-
-  if (src) {
-    window.modalBigPicture.showBigPictureElement(searchElementArray(window.pictures.photosGuests, src));
-  }
-};
-
-/*
-//
-var closeBigPictureHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE || evt.type === 'click') {
-    var bigPictureElement = document.querySelector('.big-picture');
-
-    bigPictureElement.classList.add('hidden');
-    closeBigPictureElement.removeEventListener('click', closeBigPictureHandler);
-    window.removeEventListener('keydown', closeBigPictureHandler);
-  }
-};
-*/
-
 fileUploadElement.addEventListener('change', function () {
   var effectBarElement = document.querySelector('.img-upload__effect-level');
   var hashtagsElement = document.querySelector('.text__hashtags');
@@ -393,4 +263,3 @@ fileUploadCancelElement.addEventListener('click', function () {
 });
 
 fileUploadCancelElement.addEventListener('keydown', fileUploadKeyPressHandler);
-window.pictures.picturesElement.addEventListener('click', picturesContainerClickHandler, false);
