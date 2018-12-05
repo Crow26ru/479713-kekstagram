@@ -4,7 +4,6 @@
 var fileUploadElement = document.querySelector('#upload-file');
 var fileUploadCancelElement = document.querySelector('#upload-cancel');
 var effectListElement = document.querySelector('.effects__list');
-// var closeBigPictureElement = document.querySelector('.big-picture__cancel');
 var effectFormElement = document.querySelector('#upload-select-image');
 var uploadImageElement = document.querySelector('.img-upload__preview img');
 
@@ -26,15 +25,12 @@ var showFileUploadOverlay = function (isShow) {
   }
 };
 
-var clearClassName = function (element) {
-  element.className = '';
-};
-
 var executeOperationsBeforeCloseEffectForm = function () {
   var hashtagsElement = document.querySelector('.text__hashtags');
 
   showFileUploadOverlay(false);
-  clearClassName(window.uploadImageElement);
+  window.uploadImageElement.removeAttribute('class');
+  window.uploadImageElement.removeAttribute('style');
   window.removeEventListener('keydown', fileUploadKeyPressHandler);
   effectListElement.removeEventListener('click', effectsListClickHandler);
   effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
@@ -226,11 +222,6 @@ var effectsListClickHandler = function (evt) {
     var lastElementClassList = target.classList[length - 1];
     var effectBarElement = document.querySelector('.img-upload__effect-level');
 
-    if (window.uploadImageElement.className) {
-      window.uploadImageElement.className = '';
-    }
-
-    window.uploadImageElement.style.filter = '';
     window.dragSlider.levelEffectSliderElement.style.width = window.dragSlider.defaultPositon;
     window.dragSlider.pinEffectSliderElement.style.left = window.dragSlider.defaultPositon;
     window.uploadImageElement.classList.add(lastElementClassList);
