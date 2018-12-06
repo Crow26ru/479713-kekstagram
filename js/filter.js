@@ -10,6 +10,12 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      isFilter: function (filter) {
+        return filter === this.name;
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -20,6 +26,12 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      isFilter: function (filter) {
+        return filter === this.name;
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -30,6 +42,12 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      isFilter: function (filter) {
+        return filter === this.name;
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -40,6 +58,12 @@
       measuringUnit: 'px',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      isFilter: function (filter) {
+        return filter === this.name;
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -50,6 +74,12 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
+      },
+      isFilter: function (filter) {
+        return filter === this.name;
+      },
+      getMaxValueProperty: function () {
+        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     }
   ];
@@ -101,6 +131,7 @@
       var maxWidth = parseInt(stylesLineEffectSlider.width, 10);
       var effect;
       var valueEffect;
+      var inputValueElement = document.querySelector('.effect-level__value');
 
       var getPositionInnerMinMaxValues = function (value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -112,9 +143,12 @@
 
       pinEffectSliderElement.style.left = newX + 'px';
       levelEffectSliderElement.style.width = newX + 'px';
-      effect = getFilterName(window.uploadImageElement);
+
+      // Это и связанные с ними переменные надо завернуть в callback?
+      effect = getFilterName(window.upload);
       valueEffect = resolveProportion(newX, maxWidth, effect.minValue, effect.maxValue);
-      setValueOfEffect(window.uploadImageElement, effect.name, valueEffect);
+      setValueOfEffect(window.upload, effect.name, valueEffect);
+      inputValueElement.value = valueEffect;
     };
 
     var mouseUpHandler = function (upEvt) {
@@ -131,7 +165,8 @@
 
   // Пин и бар уровня эффектов потребуются
   // Для сброса их в начальное состояние при перключении фильтор
-  window.dragSlider = {
+  window.filter = {
+    effects: effects,
     pinEffectSliderElement: pinEffectSliderElement,
     levelEffectSliderElement: levelEffectSliderElement,
     defaultPositon: defaultPositon
