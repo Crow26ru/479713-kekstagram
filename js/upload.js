@@ -23,6 +23,8 @@
   var executeOperationsBeforeCloseEffectForm = function () {
     var hashtagsElement = document.querySelector('.text__hashtags');
 
+    uploadImageElement.removeAttribute('class');
+    uploadImageElement.removeAttribute('style');
     showFileUploadOverlay(false);
     removeEventListener('keydown', fileUploadKeyPressHandler);
     effectListElement.removeEventListener('click', effectsListClickHandler);
