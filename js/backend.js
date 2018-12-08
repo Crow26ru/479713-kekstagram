@@ -47,10 +47,15 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс')ж
+      onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
     });
 
     xhr.open('POST', URL_UPLOAD);
     xhr.send();
+  };
+
+  window.backend = {
+    download: download,
+    upload: upload
   };
 })();
