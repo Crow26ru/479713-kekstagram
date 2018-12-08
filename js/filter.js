@@ -148,7 +148,7 @@
       effect = getFilterName(window.upload);
       valueEffect = resolveProportion(newX, maxWidth, effect.minValue, effect.maxValue);
       setValueOfEffect(window.upload, effect.name, valueEffect);
-      inputValueElement.value = valueEffect;
+      inputValueElement.value = Math.round(valueEffect);
     };
 
     var mouseUpHandler = function (upEvt) {
