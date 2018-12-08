@@ -2,11 +2,12 @@
 
 (function () {
   // Секция загрузки нового изображения
-  var fileUploadElement = document.querySelector('#upload-file');
-  var fileUploadCancelElement = document.querySelector('#upload-cancel');
-  var effectListElement = document.querySelector('.effects__list');
   var effectFormElement = document.querySelector('#upload-select-image');
-  var uploadImageElement = document.querySelector('.img-upload__preview img');
+  var fileUploadElement = effectFormElement.querySelector('#upload-file');
+  var fileUploadCancelElement = document.querySelector('#upload-cancel');
+  var effectListElement = effectFormElement.querySelector('.effects__list');
+  var uploadImageElement = effectFormElement.querySelector('.img-upload__preview img');
+  var fileUploadOverlayElement = document.querySelector('.img-upload__overlay');
 
   // Функция показывающая или скрывающая '.img-upload__overlay'
   // Значение true параметра isShow показывает оверлей
@@ -36,7 +37,12 @@
 
   // ОБРАБОТЧИКИ СОБЫТИЙ
 
+  var errorHandler = function (message) {
+    console.log(message);
+  };
+  
   var effectFormSubmitHandler = function (evt) {
+    window.backend.upload(new FormData(effectFormElement), showFileUploadOverlay, errorHandler);
     evt.preventDefault();
     if (window.validate(evt)) {
       executeOperationsBeforeCloseEffectForm();
