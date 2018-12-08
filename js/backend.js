@@ -22,7 +22,7 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс')ж
+      onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
     });
 
     xhr.open('GET', URL_DOWNLOAD);
