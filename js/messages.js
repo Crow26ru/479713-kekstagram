@@ -19,16 +19,18 @@
     modalError.style.display = 'none';
   };
 
-  /*
   var openModalError = function () {
     modalError.removeAttribute('style');
   };
-  */
 
   insertErrorSecion();
 
   var buttonErrorClose = document.querySelector('.error__button');
   var modalError = document.querySelector('.error');
+
+  window.messages = {
+    openModalError: openModalError
+  };
 
   buttonErrorClose.addEventListener('click', function () {
     closeModalError();

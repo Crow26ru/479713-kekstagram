@@ -37,6 +37,7 @@
   // ОБРАБОТЧИКИ СОБЫТИЙ
 
   var errorHandler = function (message) {
+    window.messages.openModalError();
     console.log(message);
   };
 
