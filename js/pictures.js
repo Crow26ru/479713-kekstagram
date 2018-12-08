@@ -60,6 +60,7 @@
 
   window.pictures = {
     TOTAL_PHOTOS_FROM_RANDOM_USERS: TOTAL_PHOTOS_FROM_RANDOM_USERS,
+    photos: photos,
     picturesElement: picturesElement
   };
 
