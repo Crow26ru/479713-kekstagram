@@ -8,10 +8,6 @@
   var effectListElement = effectFormElement.querySelector('.effects__list');
   var uploadImageElement = effectFormElement.querySelector('.img-upload__preview img');
 
-  var errorTemplateElement = document.querySelector('#error')
-        .content
-        .querySelector('.error');
-
   // Функция показывающая или скрывающая '.img-upload__overlay'
   // Значение true параметра isShow показывает оверлей
   // Значение false параметра isShow скрывает оверлей
@@ -37,18 +33,6 @@
     hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
     fileUploadElement.value = '';
   };
-
-  var insertErrorSecion = function () {
-    var fragment = document.createDocumentFragment();
-    var errorElement = errorTemplateElement.cloneNode(true);
-    var mainElement = document.querySelector('main');
-
-    errorElement.style.display = 'none';
-    fragment.appendChild(errorElement);
-    mainElement.appendChild(fragment);
-  };
-
-  insertErrorSecion();
 
   // ОБРАБОТЧИКИ СОБЫТИЙ
 
