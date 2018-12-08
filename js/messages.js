@@ -15,6 +15,28 @@
     mainElement.appendChild(fragment);
   };
 
+  var closeModalError = function () {
+    modalError.style.display = 'none';
+  };
+
+  /*
+  var openModalError = function () {
+    modalError.removeAttribute('style');
+  };
+  */
+
   insertErrorSecion();
 
+  var buttonErrorClose = document.querySelector('.error__button');
+  var modalError = document.querySelector('.error');
+
+  buttonErrorClose.addEventListener('click', function () {
+    closeModalError();
+  });
+
+  window.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
+      closeModalError();
+    }
+  });
 })();
