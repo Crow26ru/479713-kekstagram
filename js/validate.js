@@ -90,6 +90,11 @@
 
     var hashtagInput = target;
     var textInput = hashtagInput.value.toLowerCase();
+
+    if (textInput === '') {
+      return true;
+    }
+
     var textSubstrings = textInput.split(CHAR_SPLIT);
 
     validity.isCorrectFirstSymbol = checkFirstSymbol(textSubstrings, CHAR_HASHTAG);

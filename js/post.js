@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  var MIN_URL_ICON_IMAGE = 1;
-  var MAX_URL_ICON_IMAGE = 6;
-  var AVATAR_RANDOM_USER_ALT = 'Аватар комментатора фотографии';
   var AVATAR_RANDOM_USER_WIDTH = 35;
   var AVATAR_RANDOM_USER_HEIGHT = 35;
 
@@ -15,18 +12,18 @@
   };
 
   var createCommentListElement = function (elem) {
-    var totalShowComments = 3;
+    var totalShowComments = 5;
     var commentsListElement = document.createDocumentFragment();
     var socialCommentsElement = document.querySelector('.social__comments');
 
-    while (socialCommentsElement.children.length >= totalShowComments) {
+    while (socialCommentsElement.children.length > 0) {
       socialCommentsElement.removeChild(socialCommentsElement.lastChild);
     }
 
     for (var i = 0; i < elem.comments.length; i++) {
       var listItemElement = createElement('li', 'social__comment');
-      var imgElement = createImgElement('social__picture');
-      var pElement = createElement('p', 'social__text', elem.comments[i]);
+      var imgElement = createImgElement('social__picture', elem.comments[i]);
+      var pElement = createElement('p', 'social__text', elem.comments[i].message);
       listItemElement.appendChild(imgElement);
       listItemElement.appendChild(pElement);
 
@@ -48,11 +45,11 @@
     return someElement;
   };
 
-  var createImgElement = function (className) {
+  var createImgElement = function (className, commentObject) {
     var someImgElement = createElement('img', className);
-    var src = 'img/avatar-' + window.util.getRandomNumber(MIN_URL_ICON_IMAGE, MAX_URL_ICON_IMAGE) + '.svg';
+    var src = commentObject.avatar;
     someImgElement.src = src;
-    someImgElement.alt = AVATAR_RANDOM_USER_ALT;
+    someImgElement.alt = commentObject.name;
     someImgElement.width = AVATAR_RANDOM_USER_WIDTH;
     someImgElement.height = AVATAR_RANDOM_USER_HEIGHT;
     return someImgElement;
@@ -70,7 +67,7 @@
 
   window.post = {
     showBigPictureElement: function (elem) {
-      var alt = 'Фото рандомного пользователя';
+      var alt = 'Фото пользователя';
       var bigPictureElement = document.querySelector('.big-picture');
       var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
       var socialCommentCountElement = bigPictureElement.querySelector('.social__comment-count');

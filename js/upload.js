@@ -1,12 +1,19 @@
 'use strict';
 
 (function () {
+  var FORM_FIELDS_DEFAULT = {
+    uploadFile: '',
+    filterValue: 20,
+    hashtag: '',
+    comment: ''
+  };
   // Секция загрузки нового изображения
-  var fileUploadElement = document.querySelector('#upload-file');
-  var fileUploadCancelElement = document.querySelector('#upload-cancel');
-  var effectListElement = document.querySelector('.effects__list');
   var effectFormElement = document.querySelector('#upload-select-image');
-  var uploadImageElement = document.querySelector('.img-upload__preview img');
+  var fileUploadElement = effectFormElement.querySelector('#upload-file');
+  var fileUploadCancelElement = document.querySelector('#upload-cancel');
+  var effectListElement = effectFormElement.querySelector('.effects__list');
+  var uploadImageElement = effectFormElement.querySelector('.img-upload__preview img');
+  var filterValueElement = effectFormElement.querySelector('.effect-level__value');
 
   // Функция показывающая или скрывающая '.img-upload__overlay'
   // Значение true параметра isShow показывает оверлей
@@ -20,6 +27,16 @@
     }
   };
 
+  var clearForm = function () {
+    var hashtagElement = effectFormElement.querySelector('.text__hashtags');
+    var commentElement = effectFormElement.querySelector('.text__description');
+
+    fileUploadElement.value = FORM_FIELDS_DEFAULT.uploadFile;
+    filterValueElement.value = FORM_FIELDS_DEFAULT.filterValue;
+    hashtagElement.value = FORM_FIELDS_DEFAULT.hashtag;
+    commentElement.value = FORM_FIELDS_DEFAULT.comment;
+  };
+
   var executeOperationsBeforeCloseEffectForm = function () {
     var hashtagsElement = document.querySelector('.text__hashtags');
 
@@ -31,15 +48,19 @@
     effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
     hashtagsElement.removeEventListener('input', window.validate);
     hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
-    fileUploadElement.value = '';
+    clearForm();
   };
 
   // ОБРАБОТЧИКИ СОБЫТИЙ
 
+  var errorHandler = function () {
+    window.messages.openModalError();
+  };
+
   var effectFormSubmitHandler = function (evt) {
     evt.preventDefault();
     if (window.validate(evt)) {
-      executeOperationsBeforeCloseEffectForm();
+      window.backend.upload(new FormData(effectFormElement), executeOperationsBeforeCloseEffectForm, errorHandler);
     }
   };
 
@@ -80,6 +101,7 @@
 
         if (result) {
           uploadImageElement.style.filter = window.filter.effects[i].getMaxValueProperty();
+          filterValueElement.value = window.filter.effects[i].maxValue;
           break;
         }
       }
