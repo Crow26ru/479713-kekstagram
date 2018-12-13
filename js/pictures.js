@@ -11,12 +11,13 @@
   var createDataInArray = function (data) {
     var imageFilter = document.querySelector('.img-filters');
 
-    for (var i = 0; i <= TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
+    for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
       var photoInfo = data[i];
       photos.push(photoInfo);
     }
     insertPhotos();
     imageFilter.classList.remove('img-filters--inactive');
+    console.log(photos);
   };
 
   var searchElementArray = function (arr, url) {
