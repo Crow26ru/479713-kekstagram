@@ -10,6 +10,28 @@
      .querySelector('.picture');
   var picturesElement = document.querySelector('.pictures');
 
+  var editPhotos = function (arr) {
+    var fragment = document.createDocumentFragment();
+
+    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
+    while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
+      picturesElement.removeChild(picturesElement.lastChild);
+    }
+
+    arr.forEach(function (image) {
+      var url = image.url;
+      var likes = image.likes;
+      var comments = image.comments;
+
+      var imageElement = pictureTemplateElement.cloneNode(true);
+      imageElement.querySelector('.picture__img').src = url;
+      imageElement.querySelector('.picture__likes').textContent = likes;
+      imageElement.querySelector('.picture__comments').textContent = comments.length;
+      fragment.appendChild(imageElement);
+    });
+    picturesElement.appendChild(fragment);
+  };
+
   var createDataInArray = function (data) {
     var imageFilterElement = document.querySelector('.img-filters');
     var imageFilterFormElement = imageFilterElement.querySelector('form');
@@ -22,7 +44,6 @@
     imageFilterElement.classList.remove('img-filters--inactive');
     photosCopy = photos;
 
-    sortDiscussPhotos();
     imageFilterFormElement.addEventListener('click', imageFilterClickHandler);
   };
 
@@ -36,28 +57,10 @@
   };
 
   var insertPhotos = function () {
-    var fragment = document.createDocumentFragment();
-
-    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
-    while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
-      picturesElement.removeChild(picturesElement.lastChild);
-    }
-
-    for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
-      var url = photos[i].url;
-      var likes = photos[i].likes;
-      var comments = photos[i].comments;
-      var imageElement = pictureTemplateElement.cloneNode(true);
-      imageElement.querySelector('.picture__img').src = url;
-      imageElement.querySelector('.picture__likes').textContent = likes;
-      imageElement.querySelector('.picture__comments').textContent = comments.length;
-      fragment.appendChild(imageElement);
-    }
-    picturesElement.appendChild(fragment);
+    editPhotos(photos);
   };
 
   var sortNewPhotos = function () {
-    var fragment = document.createDocumentFragment();
     var randomImage;
     var randomImages = [];
 
@@ -70,29 +73,10 @@
       }
     }
 
-    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
-    while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
-      picturesElement.removeChild(picturesElement.lastChild);
-    }
-
-    // ДОБАВЛЯЕМ ОТСОРТИРОВАННЫЕ ФОТО
-    randomImages.forEach(function (image) {
-      var url = image.url;
-      var likes = image.likes;
-      var comments = image.comments;
-
-      var imageElement = pictureTemplateElement.cloneNode(true);
-      imageElement.querySelector('.picture__img').src = url;
-      imageElement.querySelector('.picture__likes').textContent = likes;
-      imageElement.querySelector('.picture__comments').textContent = comments.length;
-      fragment.appendChild(imageElement);
-    });
-    picturesElement.appendChild(fragment);
+    editPhotos(randomImages);
   };
 
   var sortDiscussPhotos = function () {
-    var fragment = document.createDocumentFragment();
-
     photosCopy.sort(function (left, right) {
       if (left.comments.length > right.comments.length) {
         return -1;
@@ -103,24 +87,7 @@
       }
     });
 
-    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
-    while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
-      picturesElement.removeChild(picturesElement.lastChild);
-    }
-
-    // ДОБАВЛЯЕМ ОТСОРТИРОВАННЫЕ ФОТО
-    photosCopy.forEach(function (image) {
-      var url = image.url;
-      var likes = image.likes;
-      var comments = image.comments;
-
-      var imageElement = pictureTemplateElement.cloneNode(true);
-      imageElement.querySelector('.picture__img').src = url;
-      imageElement.querySelector('.picture__likes').textContent = likes;
-      imageElement.querySelector('.picture__comments').textContent = comments.length;
-      fragment.appendChild(imageElement);
-    });
-    picturesElement.appendChild(fragment);
+    editPhotos(photosCopy);
   };
 
   var picturesContainerClickHandler = function (evt) {
