@@ -5,6 +5,8 @@
   var AVATAR_RANDOM_USER_HEIGHT = 35;
 
   var closeBigPictureElement = document.querySelector('.big-picture__cancel');
+  var bigPictureElement = document.querySelector('.big-picture');
+  var moreCommentsButton = bigPictureElement.querySelector('.comments-loader');
 
   var insertCommentListElement = function (elem) {
     var commentsElement = document.querySelector('.social__comments');
@@ -57,7 +59,6 @@
 
   var showBigPictureElement = function (elem) {
     var alt = 'Фото пользователя';
-    var bigPictureElement = document.querySelector('.big-picture');
     var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
 
     bigPictureElement.classList.remove('hidden');
@@ -68,18 +69,22 @@
     insertCommentListElement(elem);
     socialCaptionElement.textContent = elem.description;
 
+    moreCommentsButton.addEventListener('click', commentClickHandler);
     closeBigPictureElement.addEventListener('click', closeBigPictureHandler);
     window.addEventListener('keydown', closeBigPictureHandler);
   };
 
   var closeBigPictureHandler = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE || evt.type === 'click') {
-      var bigPictureElement = document.querySelector('.big-picture');
-
       bigPictureElement.classList.add('hidden');
+      moreCommentsButton.removeEventListener('click', commentClickHandler);
       closeBigPictureElement.removeEventListener('click', closeBigPictureHandler);
       window.removeEventListener('keydown', closeBigPictureHandler);
     }
+  };
+
+  var commentClickHandler = function () {
+    console.log('Сообщение');
   };
 
   window.post = {
