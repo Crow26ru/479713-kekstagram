@@ -3,6 +3,7 @@
 (function () {
   var TOTAL_PHOTOS_FROM_RANDOM_USERS = 25;
   var photos = [];
+  var photosCopy = [];
   var pictureTemplateElement = document.querySelector('#picture')
      .content
      .querySelector('.picture');
@@ -17,7 +18,7 @@
     }
     insertPhotos();
     imageFilter.classList.remove('img-filters--inactive');
-    console.log(photos);
+    photosCopy = photos;
   };
 
   var searchElementArray = function (arr, url) {
