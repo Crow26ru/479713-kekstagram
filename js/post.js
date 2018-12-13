@@ -54,6 +54,27 @@
     someImgElement.height = AVATAR_RANDOM_USER_HEIGHT;
     return someImgElement;
   };
+  
+  var showBigPictureElement = function (elem) {
+    var alt = 'Фото пользователя';
+    var bigPictureElement = document.querySelector('.big-picture');
+    var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
+    var socialCommentCountElement = bigPictureElement.querySelector('.social__comment-count');
+    var commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
+
+    bigPictureElement.classList.remove('hidden');
+    bigPictureElement.querySelector('.big-picture__img img').src = elem.url;
+    bigPictureElement.querySelector('.big-picture__img img').alt = alt;
+    bigPictureElement.querySelector('.likes-count').textContent = elem.likes;
+    bigPictureElement.querySelector('.comments-count').textContent = elem.comments.length;
+    insertCommentListElement(elem);
+    socialCaptionElement.textContent = elem.description;
+    socialCommentCountElement.classList.add('visually-hidden');
+    commentsLoaderElement.classList.add('visually-hidden');
+
+    closeBigPictureElement.addEventListener('click', closeBigPictureHandler);
+    window.addEventListener('keydown', closeBigPictureHandler);
+  }
 
   var closeBigPictureHandler = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE || evt.type === 'click') {
@@ -66,25 +87,6 @@
   };
 
   window.post = {
-    showBigPictureElement: function (elem) {
-      var alt = 'Фото пользователя';
-      var bigPictureElement = document.querySelector('.big-picture');
-      var socialCaptionElement = bigPictureElement.querySelector('.social__caption');
-      var socialCommentCountElement = bigPictureElement.querySelector('.social__comment-count');
-      var commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
-
-      bigPictureElement.classList.remove('hidden');
-      bigPictureElement.querySelector('.big-picture__img img').src = elem.url;
-      bigPictureElement.querySelector('.big-picture__img img').alt = alt;
-      bigPictureElement.querySelector('.likes-count').textContent = elem.likes;
-      bigPictureElement.querySelector('.comments-count').textContent = elem.comments.length;
-      insertCommentListElement(elem);
-      socialCaptionElement.textContent = elem.description;
-      socialCommentCountElement.classList.add('visually-hidden');
-      commentsLoaderElement.classList.add('visually-hidden');
-
-      closeBigPictureElement.addEventListener('click', closeBigPictureHandler);
-      window.addEventListener('keydown', closeBigPictureHandler);
-    }
+    showBigPictureElement: showBigPictureElement
   };
 })();
