@@ -121,11 +121,11 @@
     activeButton.classList.add(classActive);
 
     if (activeButton.getAttribute('id') === 'filter-popular') {
-      insertPhotos();
+      window.debounce(insertPhotos);
     } else if (activeButton.getAttribute('id') === 'filter-new') {
-      sortNewPhotos();
+      window.debounce(sortNewPhotos);
     } else {
-      sortDiscussPhotos();
+      window.debounce(sortDiscussPhotos);
     }
   };
 
