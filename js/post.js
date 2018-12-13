@@ -57,7 +57,7 @@
     someImgElement.height = AVATAR_RANDOM_USER_HEIGHT;
     return someImgElement;
   };
-  
+
   var editShowComments = function (commentsShow) {
     var textElement = commentsMessageElement.childNodes[0];
     var message = textElement.textContent;
@@ -82,7 +82,7 @@
 
     var commentListElement = bigPictureElement.querySelectorAll('.social__comment');
 
-    if (commentListElement.length < DEFAULT_SHOW_COMMENTS) {
+    if (commentListElement.length <= DEFAULT_SHOW_COMMENTS) {
       editShowComments(commentListElement.length);
       moreCommentsElement.classList.add('visually-hidden');
     } else {
