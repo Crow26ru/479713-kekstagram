@@ -107,7 +107,23 @@
   };
 
   var commentClickHandler = function () {
-    console.log('Сообщение');
+    var hiddenCommentsElement = bigPictureElement.querySelectorAll('li.visually-hidden');
+    var iterator = DEFAULT_SHOW_COMMENTS;
+    var totalHiddenComments = hiddenCommentsElement.length;
+
+    while (iterator && totalHiddenComments) {
+      bigPictureElement.querySelector('li.visually-hidden').classList.remove('visually-hidden');
+      iterator--;
+      totalHiddenComments--;
+    }
+
+    if (!totalHiddenComments) {
+      moreCommentsElement.classList.add('visually-hidden');
+    }
+
+    var commentsVisible = bigPictureElement.querySelectorAll('.social__comment').length - totalHiddenComments;
+
+    editShowComments(commentsVisible);
   };
 
   window.post = {
