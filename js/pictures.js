@@ -2,6 +2,7 @@
 
 (function () {
   var TOTAL_PHOTOS_FROM_RANDOM_USERS = 25;
+  var TOTAL_NEW_PHOTOS = 10;
   var photos = [];
   var photosCopy = [];
   var pictureTemplateElement = document.querySelector('#picture')
@@ -20,7 +21,7 @@
     insertPhotos();
     imageFilterElement.classList.remove('img-filters--inactive');
     photosCopy = photos;
-    
+
     imageFilterFormElement.addEventListener('click', imageFilterClickHandler);
   };
 
@@ -36,6 +37,11 @@
   var insertPhotos = function () {
     var fragment = document.createDocumentFragment();
 
+    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
+    while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
+      picturesElement.removeChild(picturesElement.lastChild);
+    }
+
     for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
       var url = photos[i].url;
       var likes = photos[i].likes;
@@ -46,6 +52,40 @@
       imageElement.querySelector('.picture__comments').textContent = comments.length;
       fragment.appendChild(imageElement);
     }
+    picturesElement.appendChild(fragment);
+  };
+
+  var sortNewPhotos = function () {
+    var fragment = document.createDocumentFragment();
+    var randomImage;
+    var randomImages = [];
+
+    // ИНИЦИАЛИЗАЦИЯ МАССИВА СЛУЧАЙНЫМИ И УНИКАЛЬНЫМИ ФОТО
+    while (randomImages.length < TOTAL_NEW_PHOTOS) {
+      randomImage = window.util.getRandomElementArray(photosCopy);
+
+      if (randomImages.indexOf(randomImage) === -1) {
+        randomImages.push(randomImage);
+      }
+    }
+
+    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
+    while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
+      picturesElement.removeChild(picturesElement.lastChild);
+    }
+
+    // ДОБАВЛЯЕМ ОТСОРТИРОВАННЫЕ ФОТО
+    randomImages.forEach(function (image) {
+      var url = image.url;
+      var likes = image.likes;
+      var comments = image.comments;
+
+      var imageElement = pictureTemplateElement.cloneNode(true);
+      imageElement.querySelector('.picture__img').src = url;
+      imageElement.querySelector('.picture__likes').textContent = likes;
+      imageElement.querySelector('.picture__comments').textContent = comments.length;
+      fragment.appendChild(imageElement);
+    });
     picturesElement.appendChild(fragment);
   };
 
@@ -65,7 +105,7 @@
       window.post.showBigPictureElement(searchElementArray(photos, src));
     }
   };
-  
+
   var imageFilterClickHandler = function (evt) {
     var form = evt.currentTarget;
     var activeButton = evt.target;
