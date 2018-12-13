@@ -2,18 +2,49 @@
 
 (function () {
   var TOTAL_PHOTOS_FROM_RANDOM_USERS = 25;
+  var TOTAL_NEW_PHOTOS = 10;
   var photos = [];
+  var photosCopy = [];
   var pictureTemplateElement = document.querySelector('#picture')
      .content
      .querySelector('.picture');
   var picturesElement = document.querySelector('.pictures');
 
+  var editPhotos = function (arr) {
+    var fragment = document.createDocumentFragment();
+
+    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
+    while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
+      picturesElement.removeChild(picturesElement.lastChild);
+    }
+
+    arr.forEach(function (image) {
+      var url = image.url;
+      var likes = image.likes;
+      var comments = image.comments;
+
+      var imageElement = pictureTemplateElement.cloneNode(true);
+      imageElement.querySelector('.picture__img').src = url;
+      imageElement.querySelector('.picture__likes').textContent = likes;
+      imageElement.querySelector('.picture__comments').textContent = comments.length;
+      fragment.appendChild(imageElement);
+    });
+    picturesElement.appendChild(fragment);
+  };
+
   var createDataInArray = function (data) {
-    for (var i = 0; i <= TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
+    var imageFilterElement = document.querySelector('.img-filters');
+    var imageFilterFormElement = imageFilterElement.querySelector('form');
+
+    for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
       var photoInfo = data[i];
       photos.push(photoInfo);
+      photosCopy.push(photoInfo);
     }
     insertPhotos();
+    imageFilterElement.classList.remove('img-filters--inactive');
+
+    imageFilterFormElement.addEventListener('click', imageFilterClickHandler);
   };
 
   var searchElementArray = function (arr, url) {
@@ -26,19 +57,37 @@
   };
 
   var insertPhotos = function () {
-    var fragment = document.createDocumentFragment();
+    editPhotos(photos);
+  };
 
-    for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
-      var url = photos[i].url;
-      var likes = photos[i].likes;
-      var comments = photos[i].comments;
-      var imageElement = pictureTemplateElement.cloneNode(true);
-      imageElement.querySelector('.picture__img').src = url;
-      imageElement.querySelector('.picture__likes').textContent = likes;
-      imageElement.querySelector('.picture__comments').textContent = comments.length;
-      fragment.appendChild(imageElement);
+  var sortNewPhotos = function () {
+    var randomImage;
+    var randomImages = [];
+
+    // ИНИЦИАЛИЗАЦИЯ МАССИВА СЛУЧАЙНЫМИ И УНИКАЛЬНЫМИ ФОТО
+    while (randomImages.length < TOTAL_NEW_PHOTOS) {
+      randomImage = window.util.getRandomElementArray(photosCopy);
+
+      if (randomImages.indexOf(randomImage) === -1) {
+        randomImages.push(randomImage);
+      }
     }
-    picturesElement.appendChild(fragment);
+
+    editPhotos(randomImages);
+  };
+
+  var sortDiscussPhotos = function () {
+    photosCopy.sort(function (left, right) {
+      if (left.comments.length > right.comments.length) {
+        return -1;
+      } else if (left.comments.length < right.comments.length) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    editPhotos(photosCopy);
   };
 
   var picturesContainerClickHandler = function (evt) {
@@ -55,6 +104,28 @@
 
     if (src) {
       window.post.showBigPictureElement(searchElementArray(photos, src));
+    }
+  };
+
+  var imageFilterClickHandler = function (evt) {
+    var form = evt.currentTarget;
+    var activeButton = evt.target;
+    var buttons = form.querySelectorAll('button');
+    var classActive = 'img-filters__button--active';
+
+    buttons.forEach(function (button) {
+      if (button.classList.contains(classActive)) {
+        button.classList.remove(classActive);
+      }
+    });
+    activeButton.classList.add(classActive);
+
+    if (activeButton.getAttribute('id') === 'filter-popular') {
+      window.debounce(insertPhotos);
+    } else if (activeButton.getAttribute('id') === 'filter-new') {
+      window.debounce(sortNewPhotos);
+    } else {
+      window.debounce(sortDiscussPhotos);
     }
   };
 
