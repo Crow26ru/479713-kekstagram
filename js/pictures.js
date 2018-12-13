@@ -22,6 +22,7 @@
     imageFilterElement.classList.remove('img-filters--inactive');
     photosCopy = photos;
 
+    sortDiscussPhotos();
     imageFilterFormElement.addEventListener('click', imageFilterClickHandler);
   };
 
@@ -76,6 +77,39 @@
 
     // ДОБАВЛЯЕМ ОТСОРТИРОВАННЫЕ ФОТО
     randomImages.forEach(function (image) {
+      var url = image.url;
+      var likes = image.likes;
+      var comments = image.comments;
+
+      var imageElement = pictureTemplateElement.cloneNode(true);
+      imageElement.querySelector('.picture__img').src = url;
+      imageElement.querySelector('.picture__likes').textContent = likes;
+      imageElement.querySelector('.picture__comments').textContent = comments.length;
+      fragment.appendChild(imageElement);
+    });
+    picturesElement.appendChild(fragment);
+  };
+
+  var sortDiscussPhotos = function () {
+    var fragment = document.createDocumentFragment();
+
+    photosCopy.sort(function (left, right) {
+      if (left.comments.length > right.comments.length) {
+        return -1;
+      } else if (left.comments.length < right.comments.length) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
+    while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
+      picturesElement.removeChild(picturesElement.lastChild);
+    }
+
+    // ДОБАВЛЯЕМ ОТСОРТИРОВАННЫЕ ФОТО
+    photosCopy.forEach(function (image) {
       var url = image.url;
       var likes = image.likes;
       var comments = image.comments;
