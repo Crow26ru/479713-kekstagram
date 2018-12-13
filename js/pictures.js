@@ -10,15 +10,18 @@
   var picturesElement = document.querySelector('.pictures');
 
   var createDataInArray = function (data) {
-    var imageFilter = document.querySelector('.img-filters');
+    var imageFilterElement = document.querySelector('.img-filters');
+    var imageFilterFormElement = imageFilterElement.querySelector('form');
 
     for (var i = 0; i < TOTAL_PHOTOS_FROM_RANDOM_USERS; i++) {
       var photoInfo = data[i];
       photos.push(photoInfo);
     }
     insertPhotos();
-    imageFilter.classList.remove('img-filters--inactive');
+    imageFilterElement.classList.remove('img-filters--inactive');
     photosCopy = photos;
+    
+    imageFilterFormElement.addEventListener('click', imageFilterClickHandler);
   };
 
   var searchElementArray = function (arr, url) {
@@ -61,6 +64,19 @@
     if (src) {
       window.post.showBigPictureElement(searchElementArray(photos, src));
     }
+  };
+  
+  var imageFilterClickHandler = function (evt) {
+    var form = evt.currentTarget;
+    var activeButton = evt.target;
+    var buttons = form.querySelectorAll('button');
+
+    buttons.forEach(function (button) {
+      if (button.classList.contains('img-filters__button--active')) {
+        button.classList.remove('img-filters__button--active');
+      }
+    });
+    activeButton.classList.add('img-filters__button--active');
   };
 
   window.pictures = {
