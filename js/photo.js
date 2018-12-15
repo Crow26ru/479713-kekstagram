@@ -21,5 +21,7 @@
 
       reader.readAsDataURL(file);
     }
+
+    window.photo = isPhoto;
   });
 })();

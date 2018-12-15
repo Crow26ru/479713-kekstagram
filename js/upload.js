@@ -119,16 +119,20 @@
   window.upload = uploadImageElement;
 
   fileUploadElement.addEventListener('change', function () {
-    var effectBarElement = document.querySelector('.img-upload__effect-level');
-    var hashtagsElement = document.querySelector('.text__hashtags');
+    if (window.photo) {
+      var effectBarElement = document.querySelector('.img-upload__effect-level');
+      var hashtagsElement = document.querySelector('.text__hashtags');
 
-    effectBarElement.classList.add('hidden');
-    showFileUploadOverlay(true);
-    window.addEventListener('keydown', fileUploadKeyPressHandler);
-    effectListElement.addEventListener('click', effectsListClickHandler);
-    effectFormElement.addEventListener('submit', effectFormSubmitHandler);
-    hashtagsElement.addEventListener('input', window.validate);
-    hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
+      effectBarElement.classList.add('hidden');
+      showFileUploadOverlay(true);
+      window.addEventListener('keydown', fileUploadKeyPressHandler);
+      effectListElement.addEventListener('click', effectsListClickHandler);
+      effectFormElement.addEventListener('submit', effectFormSubmitHandler);
+      hashtagsElement.addEventListener('input', window.validate);
+      hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
+    } else {
+      executeOperationsBeforeCloseEffectForm();
+    }
   });
 
   fileUploadCancelElement.addEventListener('click', function () {
