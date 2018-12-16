@@ -3,7 +3,6 @@
 (function () {
   var STEP_CHANGE_EFFECT = 25;
 
-  var imageElement = document.querySelector('.img-upload__preview img');
   var scaleElement = document.querySelector('.img-upload__scale');
   var smallerElement = scaleElement.querySelector('.scale__control--smaller');
   var biggerElement = scaleElement.querySelector('.scale__control--bigger');
@@ -33,7 +32,7 @@
     if (valueEffect > 25) {
       valueEffect -= STEP_CHANGE_EFFECT;
       inputValueElement.value = setValue(valueEffect);
-      imageElement.style.transform = setScaleEffect(valueEffect);
+      window.util.uploadPhoto.style.transform = setScaleEffect(valueEffect);
     }
   };
 
@@ -46,7 +45,7 @@
     if (valueEffect < 100) {
       valueEffect += STEP_CHANGE_EFFECT;
       inputValueElement.value = setValue(valueEffect);
-      imageElement.style.transform = setScaleEffect(valueEffect);
+      window.util.uploadPhoto.style.transform = setScaleEffect(valueEffect);
     }
   };
 

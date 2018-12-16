@@ -145,9 +145,9 @@
       levelEffectSliderElement.style.width = newX + 'px';
 
       // Это и связанные с ними переменные надо завернуть в callback?
-      effect = getFilterName(window.upload);
+      effect = getFilterName(window.util.uploadPhoto);
       valueEffect = resolveProportion(newX, maxWidth, effect.minValue, effect.maxValue);
-      setValueOfEffect(window.upload, effect.name, valueEffect);
+      setValueOfEffect(window.util.uploadPhoto, effect.name, valueEffect);
       inputValueElement.value = Math.round(valueEffect);
     };
 
