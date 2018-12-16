@@ -5,14 +5,15 @@
     uploadFile: '',
     filterValue: 20,
     hashtag: '',
-    comment: ''
+    comment: '',
+    scale: '100%'
   };
   // Секция загрузки нового изображения
   var effectFormElement = document.querySelector('#upload-select-image');
   var fileUploadElement = effectFormElement.querySelector('#upload-file');
   var fileUploadCancelElement = document.querySelector('#upload-cancel');
   var effectListElement = effectFormElement.querySelector('.effects__list');
-  var uploadImageElement = effectFormElement.querySelector('.img-upload__preview img');
+  var uploadImageElement = effectFormElement.querySelector('.img-upload__preview img'); // Это, наверное, лучше выбросить в util.js, так как используется ещё в модулях filter и scale
   var filterValueElement = effectFormElement.querySelector('.effect-level__value');
 
   // Функция показывающая или скрывающая '.img-upload__overlay'
@@ -48,6 +49,9 @@
     effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
     hashtagsElement.removeEventListener('input', window.validate);
     hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
+    window.scale.inputValueElement.value = FORM_FIELDS_DEFAULT.scale;
+    window.scale.biggerElement.removeEventListener('click', window.scale.biggerClickHandler);
+    window.scale.smallerElement.removeEventListener('click', window.scale.smallerClickHandler);
     clearForm();
   };
 
@@ -130,6 +134,8 @@
       effectFormElement.addEventListener('submit', effectFormSubmitHandler);
       hashtagsElement.addEventListener('input', window.validate);
       hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
+      window.scale.biggerElement.addEventListener('click', window.scale.biggerClickHandler);
+      window.scale.smallerElement.addEventListener('click', window.scale.smallerClickHandler);
     } else {
       executeOperationsBeforeCloseEffectForm();
     }
