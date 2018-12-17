@@ -56,14 +56,21 @@
 
   // ОБРАБОТЧИКИ СОБЫТИЙ
 
-  var errorHandler = function () {
-    window.messages.openModalError();
+  var errorHandler = function (message) {
+    var response = typeof message;
+    window.messages.openModalError(response);
+  };
+
+  var successHandler = function (message) {
+    var response = typeof message;
+    window.messages.openModalSuccess(response);
   };
 
   var effectFormSubmitHandler = function (evt) {
     evt.preventDefault();
     if (window.validate(evt)) {
-      window.backend.upload(new FormData(effectFormElement), executeOperationsBeforeCloseEffectForm, errorHandler);
+      window.backend.upload(new FormData(effectFormElement), successHandler, errorHandler);
+      executeOperationsBeforeCloseEffectForm();
     }
   };
 
