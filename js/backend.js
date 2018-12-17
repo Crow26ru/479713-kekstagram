@@ -6,7 +6,7 @@
 
   var operionsCommon = function (xhr, onLoad, onError) {
     xhr.responseType = 'json';
-    xhr.timeout = '10000';
+    xhr.timeout = '5000';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
