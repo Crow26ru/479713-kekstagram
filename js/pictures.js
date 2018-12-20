@@ -13,7 +13,6 @@
   var editPhotos = function (arr) {
     var fragment = document.createDocumentFragment();
 
-    // УБИРАЕМ ИЗ DOM РАНЕЕ ПОКАЗАННЫЕ ФОТО
     while (picturesElement.contains(picturesElement.querySelector('.picture'))) {
       picturesElement.removeChild(picturesElement.lastChild);
     }
@@ -64,7 +63,6 @@
     var randomImage;
     var randomImages = [];
 
-    // ИНИЦИАЛИЗАЦИЯ МАССИВА СЛУЧАЙНЫМИ И УНИКАЛЬНЫМИ ФОТО
     while (randomImages.length < TOTAL_NEW_PHOTOS) {
       randomImage = window.util.getRandomElementArray(photosCopy);
 

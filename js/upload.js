@@ -8,16 +8,13 @@
     comment: '',
     scale: '100%'
   };
-  // Секция загрузки нового изображения
+
   var effectFormElement = document.querySelector('#upload-select-image');
   var fileUploadElement = effectFormElement.querySelector('#upload-file');
   var fileUploadCancelElement = document.querySelector('#upload-cancel');
   var effectListElement = effectFormElement.querySelector('.effects__list');
   var filterValueElement = effectFormElement.querySelector('.effect-level__value');
 
-  // Функция показывающая или скрывающая '.img-upload__overlay'
-  // Значение true параметра isShow показывает оверлей
-  // Значение false параметра isShow скрывает оверлей
   var showFileUploadOverlay = function (isShow) {
     var fileUploadOverlayElement = document.querySelector('.img-upload__overlay');
     if (isShow) {
@@ -53,8 +50,6 @@
     window.scale.smallerElement.removeEventListener('click', window.scale.smallerClickHandler);
     clearForm();
   };
-
-  // ОБРАБОТЧИКИ СОБЫТИЙ
 
   var errorHandler = function (message) {
     var response = typeof message;

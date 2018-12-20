@@ -89,8 +89,6 @@
   var pinEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__pin');
   var levelEffectSliderElement = lineEffectSliderElement.querySelector('.effect-level__depth');
 
-  // numeratorX - числитель левого числа дроби        - значение newX
-  // denominatorX - знаменатель левого числа дроби    - значение maxWidth
   var resolveProportion = function (numeratorX, denominatorX, denominatorYMin, denominatorYMax) {
     if (!denominatorYMin) {
       return numeratorX * denominatorYMax / denominatorX;
@@ -100,7 +98,6 @@
     }
   };
 
-  // Функция возвращает нужный фильтр из имени класса DOM элемента
   var getFilterName = function (nodeElement) {
     for (var i = 0; i < effects.length; i++) {
       var result = nodeElement.className.indexOf('--' + effects[i].name);
@@ -111,7 +108,6 @@
     return null;
   };
 
-  // Функция устанавливает в атрибут style свойство filter для DOM элемента
   var setValueOfEffect = function (nodeElement, filerName, value) {
     for (var i = 0; i < effects.length; i++) {
       if (filerName === effects[i].name) {
@@ -144,7 +140,6 @@
       pinEffectSliderElement.style.left = newX + 'px';
       levelEffectSliderElement.style.width = newX + 'px';
 
-      // Это и связанные с ними переменные надо завернуть в callback?
       effect = getFilterName(window.util.uploadPhoto);
       valueEffect = resolveProportion(newX, maxWidth, effect.minValue, effect.maxValue);
       setValueOfEffect(window.util.uploadPhoto, effect.name, valueEffect);
@@ -163,8 +158,6 @@
 
   pinEffectSliderElement.addEventListener('mousedown', mouseDownHandler);
 
-  // Пин и бар уровня эффектов потребуются
-  // Для сброса их в начальное состояние при перключении фильтор
   window.filter = {
     effects: effects,
     pinEffectSliderElement: pinEffectSliderElement,
