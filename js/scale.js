@@ -2,6 +2,9 @@
 
 (function () {
   var STEP_CHANGE_EFFECT = 25;
+  var MIN_VALUE = 25;
+  var MAX_VALUE = 100;
+  var DIVIDLER = 100;
 
   var scaleElement = document.querySelector('.img-upload__scale');
   var smallerElement = scaleElement.querySelector('.scale__control--smaller');
@@ -20,7 +23,7 @@
   };
 
   var setScaleEffect = function (value) {
-    return 'scale(' + (value / 100) + ')';
+    return 'scale(' + (value / DIVIDLER) + ')';
   };
 
   var smallerClickHandler = function (evt) {
@@ -29,7 +32,7 @@
     valueEffect = inputValueElement.value;
     valueEffect = getValue(valueEffect);
 
-    if (valueEffect > 25) {
+    if (valueEffect > MIN_VALUE) {
       valueEffect -= STEP_CHANGE_EFFECT;
       inputValueElement.value = setValue(valueEffect);
       window.util.uploadPhoto.style.transform = setScaleEffect(valueEffect);
@@ -42,7 +45,7 @@
     valueEffect = inputValueElement.value;
     valueEffect = getValue(valueEffect);
 
-    if (valueEffect < 100) {
+    if (valueEffect < MAX_VALUE) {
       valueEffect += STEP_CHANGE_EFFECT;
       inputValueElement.value = setValue(valueEffect);
       window.util.uploadPhoto.style.transform = setScaleEffect(valueEffect);
