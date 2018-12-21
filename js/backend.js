@@ -5,7 +5,9 @@
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
   var SUCCESS_STATUS = 200;
 
-  var toPrepareQuery = function (xhr, onLoad, onError) {
+  var setup = function (onLoad, onError) {
+    var xhr = new XMLHttpRequest();
+
     xhr.responseType = 'json';
     xhr.timeout = '3000';
 
@@ -24,19 +26,19 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
     });
+
+    return xhr;
   };
 
   var download = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    toPrepareQuery(xhr, onLoad, onError);
+    var xhr = setup(onLoad, onError);
 
     xhr.open('GET', URL_DOWNLOAD);
     xhr.send();
   };
 
   var upload = function (data, onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    toPrepareQuery(xhr, onLoad, onError);
+    var xhr = setup(onLoad, onError);
 
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
