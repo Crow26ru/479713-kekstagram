@@ -6,28 +6,28 @@
   var SUCCESS_STATUS = 200;
 
   var setup = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
+    var query = new XMLHttpRequest();
 
-    xhr.responseType = 'json';
-    xhr.timeout = '3000';
+    query.responseType = 'json';
+    query.timeout = '3000';
 
-    xhr.addEventListener('load', function () {
-      if (xhr.status === SUCCESS_STATUS) {
-        onLoad(xhr.response);
+    query.addEventListener('load', function () {
+      if (query.status === SUCCESS_STATUS) {
+        onLoad(query.response);
       } else {
         onError('Ошибка загрузки данных.');
       }
     });
 
-    xhr.addEventListener('error', function () {
-      onError('Ошибка ' + xhr.status + ': ' + xhr.statusText);
+    query.addEventListener('error', function () {
+      onError('Ошибка ' + query.status + ': ' + query.statusText);
     });
 
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
+    query.addEventListener('timeout', function () {
+      onError('Запрос не успел выполниться за ' + query.timeout + ' мс');
     });
 
-    return xhr;
+    return query;
   };
 
   var download = function (onLoad, onError) {
