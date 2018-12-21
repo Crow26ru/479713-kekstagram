@@ -34,7 +34,7 @@
     }
   };
 
-  var mouseWindowClickHandler = function (evt) {
+  var mouseWindowClickHandler = function () {
     modalSuccess.style.display = 'none';
     modalError.style.display = 'none';
     window.removeEventListener('click', mouseWindowClickHandler);
