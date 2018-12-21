@@ -92,10 +92,10 @@
   var resolveProportion = function (numeratorX, denominatorX, denominatorYMin, denominatorYMax) {
     if (!denominatorYMin) {
       return numeratorX * denominatorYMax / denominatorX;
-    } else {
-      var diff = denominatorYMax - denominatorYMin;
-      return (numeratorX * diff / denominatorX) + denominatorYMin;
     }
+
+    var diff = denominatorYMax - denominatorYMin;
+    return (numeratorX * diff / denominatorX) + denominatorYMin;
   };
 
   var getFilterName = function (nodeElement) {

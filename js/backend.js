@@ -3,13 +3,14 @@
 (function () {
   var URL_DOWNLOAD = 'https://js.dump.academy/kekstagram/data';
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
+  var SUCCESS_STATUS = 200;
 
-  var operionsCommon = function (xhr, onLoad, onError) {
+  var toPrepareQuery = function (xhr, onLoad, onError) {
     xhr.responseType = 'json';
     xhr.timeout = '3000';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_STATUS) {
         onLoad(xhr.response);
       } else {
         onError('Ошибка загрузки данных.');
@@ -27,7 +28,7 @@
 
   var download = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    operionsCommon(xhr, onLoad, onError);
+    toPrepareQuery(xhr, onLoad, onError);
 
     xhr.open('GET', URL_DOWNLOAD);
     xhr.send();
@@ -35,7 +36,7 @@
 
   var upload = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    operionsCommon(xhr, onLoad, onError);
+    toPrepareQuery(xhr, onLoad, onError);
 
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);

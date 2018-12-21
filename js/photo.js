@@ -22,6 +22,6 @@
       reader.readAsDataURL(file);
     }
 
-    window.photo = isPhoto;
+    window.isPhoto = isPhoto;
   });
 })();

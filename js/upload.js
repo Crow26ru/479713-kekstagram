@@ -122,7 +122,7 @@
   };
 
   fileUploadElement.addEventListener('change', function () {
-    if (window.photo) {
+    if (window.isPhoto) {
       var effectBarElement = document.querySelector('.img-upload__effect-level');
       var hashtagsElement = document.querySelector('.text__hashtags');
 
