@@ -66,6 +66,10 @@
     if (window.validate(evt)) {
       window.backend.upload(new FormData(effectFormElement), successHandler, errorHandler);
       executeOperationsBeforeCloseEffectForm();
+      window.addEventListener('click', window.messages.mouseWindowClickHandler);
+      window.addEventListener('keydown', window.messages.keyEscPressHandler);
+      window.messages.buttonSuccessClose.addEventListener('click', window.messages.buttonCloseClickHandler);
+      window.messages.buttonErrorClose.addEventListener('click', window.messages.buttonCloseClickHandler);
     }
   };
 

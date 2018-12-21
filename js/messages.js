@@ -34,6 +34,29 @@
     }
   };
 
+  var mouseWindowClickHandler = function (evt) {
+    modalSuccess.style.display = 'none';
+    modalError.style.display = 'none';
+    window.removeEventListener('click', mouseWindowClickHandler);
+  };
+
+  var keyEscPressHandler = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
+      modalSuccess.style.display = 'none';
+      modalError.style.display = 'none';
+      window.removeEventListener('keydown', keyEscPressHandler);
+    }
+  };
+
+  var buttonCloseClickHandler = function (evt) {
+    if (evt.target === buttonSuccessClose || evt.target === buttonErrorClose) {
+      modalSuccess.style.display = 'none';
+      buttonSuccessClose.removeEventListener('click', buttonCloseClickHandler);
+      modalError.style.display = 'none';
+      buttonErrorClose.removeEventListener('click', buttonCloseClickHandler);
+    }
+  };
+
   insertModalsSecion();
 
   var buttonErrorClose = document.querySelector('.error__button');
@@ -43,26 +66,11 @@
 
   window.messages = {
     openModalError: openModalError,
-    openModalSuccess: openModalSuccess
+    openModalSuccess: openModalSuccess,
+    mouseWindowClickHandler: mouseWindowClickHandler,
+    keyEscPressHandler: keyEscPressHandler,
+    buttonCloseClickHandler: buttonCloseClickHandler,
+    buttonSuccessClose: buttonSuccessClose,
+    buttonErrorClose: buttonErrorClose
   };
-
-  window.addEventListener('click', function () {
-    modalSuccess.style.display = 'none';
-    modalError.style.display = 'none';
-  });
-
-  window.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
-      modalSuccess.style.display = 'none';
-      modalError.style.display = 'none';
-    }
-  });
-
-  buttonSuccessClose.addEventListener('click', function () {
-    modalSuccess.style.display = 'none';
-  });
-
-  buttonErrorClose.addEventListener('click', function () {
-    modalError.style.display = 'none';
-  });
 })();
