@@ -37,24 +37,30 @@
   var mouseWindowClickHandler = function () {
     modalSuccess.style.display = 'none';
     modalError.style.display = 'none';
-    window.removeEventListener('click', mouseWindowClickHandler);
+    removeAllHandlers();
   };
 
   var keyEscPressHandler = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
       modalSuccess.style.display = 'none';
       modalError.style.display = 'none';
-      window.removeEventListener('keydown', keyEscPressHandler);
+      removeAllHandlers();
     }
   };
 
   var buttonCloseClickHandler = function (evt) {
     if (evt.target === buttonSuccessClose || evt.target === buttonErrorClose) {
       modalSuccess.style.display = 'none';
-      buttonSuccessClose.removeEventListener('click', buttonCloseClickHandler);
       modalError.style.display = 'none';
-      buttonErrorClose.removeEventListener('click', buttonCloseClickHandler);
+      removeAllHandlers();
     }
+  };
+
+  var removeAllHandlers = function () {
+    window.removeEventListener('click', mouseWindowClickHandler);
+    window.removeEventListener('keydown', keyEscPressHandler);
+    buttonSuccessClose.removeEventListener('click', buttonCloseClickHandler);
+    buttonErrorClose.removeEventListener('click', buttonCloseClickHandler);
   };
 
   insertModalsSecion();
