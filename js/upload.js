@@ -1,6 +1,14 @@
 'use strict';
 
 (function () {
+  var mapEffectList = {
+    'none': 'effects__preview--none',
+    'chrome': 'effects__preview--chrome',
+    'sepia': 'effects__preview--sepia',
+    'marvin': 'effects__preview--marvin',
+    'phobos': 'effects__preview--phobos',
+    'heat': 'effects__preview--heat'
+  };
   var FORM_FIELDS_DEFAULT = {
     uploadFile: '',
     filterValue: 20,
@@ -41,7 +49,7 @@
     window.util.uploadPhoto.removeAttribute('style');
     showFileUploadOverlay(false);
     removeEventListener('keydown', fileUploadKeyPressHandler);
-    effectListElement.removeEventListener('click', effectsListClickHandler);
+    effectListElement.removeEventListener('change', effectsListClickHandler);
     effectFormElement.removeEventListener('submit', effectFormSubmitHandler);
     hashtagsElement.removeEventListener('input', window.validate);
     hashtagsElement.removeEventListener('keydown', hashtagInputHashtagEscPressHandler);
@@ -87,40 +95,24 @@
   };
 
   var effectsListClickHandler = function (evt) {
+    var effectBarElement = document.querySelector('.img-upload__effect-level');
     var target = evt.target;
+    var effect = target.value;
+    var effectInfo = window.filter.effects.filter(function (element) {
+      return effect === element.name;
+    }).pop();
 
-    if (target.tagName === 'LABEL') {
-      target = target.querySelector('span');
-    }
+    window.util.uploadPhoto.removeAttribute('class');
+    window.util.uploadPhoto.removeAttribute('style');
+    window.filter.levelEffectSliderElement.style.width = window.filter.defaultPositon;
+    window.filter.pinEffectSliderElement.style.left = window.filter.defaultPositon;
+    window.util.uploadPhoto.className = mapEffectList[effect];
 
-    if (target.tagName === 'SPAN') {
-      var length = target.classList.length;
-      var lastElementClassList = target.classList[length - 1];
-      var effectBarElement = document.querySelector('.img-upload__effect-level');
-
-      window.util.uploadPhoto.removeAttribute('class');
-      window.util.uploadPhoto.removeAttribute('style');
-      window.filter.levelEffectSliderElement.style.width = window.filter.defaultPositon;
-      window.filter.pinEffectSliderElement.style.left = window.filter.defaultPositon;
-      window.util.uploadPhoto.classList.add(lastElementClassList);
-
-      for (var i = 0; i < window.filter.effects.length; i++) {
-        var result = lastElementClassList.split('--');
-        result = window.filter.effects[i].isFilter(result[1]);
-
-        if (result) {
-          window.util.uploadPhoto.style.filter = window.filter.effects[i].getMaxValueProperty();
-          filterValueElement.value = window.filter.effects[i].maxValue;
-          break;
-        }
-      }
-
-      if (window.util.uploadPhoto.classList.contains('effects__preview--none')) {
-        effectBarElement.classList.add('hidden');
-      } else {
-        if (effectBarElement.classList.contains('hidden')) {
-          effectBarElement.classList.remove('hidden');
-        }
+    if (window.util.uploadPhoto.classList.contains(mapEffectList['none'])) {
+      effectBarElement.classList.add('hidden');
+    } else {
+      if (effectBarElement.classList.contains('hidden')) {
+        effectBarElement.classList.remove('hidden');
       }
     }
   };
@@ -133,7 +125,7 @@
       effectBarElement.classList.add('hidden');
       showFileUploadOverlay(true);
       window.addEventListener('keydown', fileUploadKeyPressHandler);
-      effectListElement.addEventListener('click', effectsListClickHandler);
+      effectListElement.addEventListener('change', effectsListClickHandler);
       effectFormElement.addEventListener('submit', effectFormSubmitHandler);
       hashtagsElement.addEventListener('input', window.validate);
       hashtagsElement.addEventListener('keydown', hashtagInputHashtagEscPressHandler);
