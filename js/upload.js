@@ -98,15 +98,12 @@
     var effectBarElement = document.querySelector('.img-upload__effect-level');
     var target = evt.target;
     var effect = target.value;
-    var effectInfo = window.filter.effects.filter(function (element) {
-      return effect === element.name;
-    }).pop();
 
     window.util.uploadPhoto.removeAttribute('class');
     window.util.uploadPhoto.removeAttribute('style');
     window.filter.levelEffectSliderElement.style.width = window.filter.defaultPositon;
     window.filter.pinEffectSliderElement.style.left = window.filter.defaultPositon;
-    window.util.uploadPhoto.className = mapEffectList[effect];
+    window.util.uploadPhoto.classList.add(mapEffectList[effect]);
 
     if (window.util.uploadPhoto.classList.contains(mapEffectList['none'])) {
       effectBarElement.classList.add('hidden');
