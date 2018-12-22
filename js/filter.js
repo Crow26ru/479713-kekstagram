@@ -10,12 +10,6 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
-      },
-      isFilter: function (filter) {
-        return filter === this.name;
-      },
-      getMaxValueProperty: function () {
-        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -26,12 +20,6 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
-      },
-      isFilter: function (filter) {
-        return filter === this.name;
-      },
-      getMaxValueProperty: function () {
-        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -42,12 +30,6 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
-      },
-      isFilter: function (filter) {
-        return filter === this.name;
-      },
-      getMaxValueProperty: function () {
-        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -58,12 +40,6 @@
       measuringUnit: 'px',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
-      },
-      isFilter: function (filter) {
-        return filter === this.name;
-      },
-      getMaxValueProperty: function () {
-        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     },
     {
@@ -74,12 +50,6 @@
       measuringUnit: '%',
       getProperty: function (value) {
         return this.filter + '(' + value + this.measuringUnit + ')';
-      },
-      isFilter: function (filter) {
-        return filter === this.name;
-      },
-      getMaxValueProperty: function () {
-        return this.filter + '(' + this.maxValue + this.measuringUnit + ')';
       }
     }
   ];
